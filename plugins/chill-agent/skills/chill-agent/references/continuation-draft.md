@@ -1,6 +1,6 @@
 # Continuation monitoring — working draft
 
-Status: design notes from Goal #28, feedback #296, #298, #302 and #304 (2026-10-04).
+Status: continuation behavior and progressive reading updated through Goal #34 (2026-10-05).
 The revised monitor, two-nudge limit, 30-second polling and dedicated result
 route are implemented in development source. This wording remains a draft for
 final polishing. Check installed CLI help before use.
@@ -38,47 +38,38 @@ The intended separation is:
   or start a fresh allowance. Confirm actual turn completion and an empty queue
   before sending again. A result callback alone does not prove the turn ended.
 
-## Agent response and Web visibility
+## Reading the workspace and responding
 
-Use readable sections like User Feedback: Context, Message, Next Actions.
-Summarize why the monitor believes the chat is idle in natural language. Include
-only useful identifiers and check number, rather than a raw diagnostic dump.
+The incoming nudge states the observed workspace situation and supplies a query:
+unfinished Goals, only pending Letters when all Goals are Done, or the whole
+index when all Goals are Done and no Letter awaits an answer. These are saved
+facts, not proof that the agreed outcome has been achieved.
 
-For work that produces a real result or requires a user decision, use the usual
-Brief, Comment and Letter workflow. For a no-work check, return the result to
-the monitor's dedicated result route without a Web Comment, Letter or Brief edit.
-Keep the internal result so no-work can be distinguished from delivery failure.
-Exclude those records from change detection in code, not just by prompting.
+Use that short index to choose the relevant Goal, then read its current Brief,
+success criteria and recent discussion. Follow the printed continuation commands
+when older history or more Brief text is needed. Do not begin by concatenating
+every Goal's full history. Installed CLI help is authoritative; older runtimes
+may provide `goal tree` instead of the new filtered `goal review`.
 
-Proposed Next Actions wording:
+Continue agreed work where possible. When an outcome has been achieved, complete
+that Goal after checking its criteria and descendants. If a user decision is
+needed, send a Letter rather than keeping the question only in chat. Avoid
+repeating a question already waiting for the user and continue independent work.
 
-> 合意した目的に向けて、今進められる仕事があれば、そのまま進めてください。
-> Letterの回答待ちでも独立して進められる部分を探し、全Goalが完了していても
-> 必要な作業の見落としがないか見直してください。
-> 作業不要の場合は、その旨をWebのComment・Letter・Briefに書き込まず、
-> この要求で指定された監視専用の結果経路へ返してください。監視への返答が
-> 新しい変更や通知として循環することを避けるためです。実際の成果や
-> ユーザーの判断が必要な問いは、通常どおりWebに残してください。
+For actual results or necessary decisions, use the usual Brief, Comment and
+Letter workflow. For no additional work, return the result through the monitor
+command without posting a no-work Comment, Letter or Brief edit. There is no
+additional stop-reason report or automatic review of the no-work judgment.
 
 The incoming request includes the exact command:
 `monitor result --id <ROOT> --attempt <UUID> --outcome worked` or
 `--outcome no-work`. It requires the assigned chat's CODEX_THREAD_ID.
 This records a result only; the monitor separately verifies turn completion.
-If the command is unavailable in the installed runtime, do not claim success
-or substitute an automatic no-work Web comment. Ordinary user feedback still
-receives its normal response.
+If the command is unavailable, do not claim success or replace it with an
+automatic no-work Web comment. Ordinary user feedback still receives its normal
+response.
 
-## Tone of the two nudges
-
-Nudge 1 should invite progress: 「今進められるところがあれば、そのまま進めてください。」
-
-Nudge 2 should communicate consequence and responsibility without inventing
-new authority. Proposed wording:
-
-> この変更に対する最後の自動確認です。ここで進められる仕事を見落とすと、
-> 次の変更やユーザーの介入まで作業が止まったままになる可能性があります。
-> あなたの役割は、合意した仕事を進め、ユーザーが安心して任せられる状態に
-> することです。chill-agentのSKILL.mdを読み直し、本当に今進められる仕事が
-> ないか、もう一度確かめ、進められる箇所があればそのまま進めてください。
-
-Both nudges preserve existing permissions, explicit pauses and agreed scope.
+Both nudges use English, with saved Goal and Letter titles kept in their original
+language. The second makes the consequence of overlooking agreed work clear,
+without adding more reading requirements, a visible attempt counter, or authority
+to expand scope. Queue, pause and two-nudge safeguards remain unchanged.
