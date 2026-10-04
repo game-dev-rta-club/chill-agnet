@@ -16,3 +16,5 @@ public/vendor/
 !/docs/architecture.md
 /chill-software-factory/
 *.tgz
+
+/designs/
