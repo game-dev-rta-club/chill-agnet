@@ -1,0 +1,18 @@
+{
+  "name": "chill-agent-message-setup",
+  "version": "0.1.0",
+  "description": "Optional phone access and notifications for chill-agent. Requires the separately installed core.",
+  "author": {
+    "name": "chill-agent"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "chill-agent message setup",
+    "shortDescription": "Take your Plans with you.",
+    "longDescription": "Choose phone access through Cloudflare and notifications through available tools. Each is optional and can be disabled independently.",
+    "developerName": "chill-agent",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Set up phone access and notifications for chill-agent."]
+  }
+}

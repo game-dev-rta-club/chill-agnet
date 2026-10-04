@@ -1,0 +1,18 @@
+{
+  "name": "chill-agent",
+  "version": "0.1.0",
+  "description": "Shape a goal, leave execution to the agent, and review Plans and results in a local Web page. Codex Desktop on macOS.",
+  "author": {
+    "name": "chill-agent"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "chill-agent",
+    "shortDescription": "Shape the goal. Enjoy the work.",
+    "longDescription": "Discuss a Plan, give feedback from the Web, and return to the result. Phone access and notifications are optional.",
+    "developerName": "chill-agent",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use chill-agent to help me shape and build this idea."]
+  }
+}
