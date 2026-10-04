@@ -4,19 +4,27 @@
 
 # Work you can leave with an agent
 
-chill-agent gives you a shared place to shape a goal, leave feedback, and return to progress. Optional continuation checks help an agent pick up agreed work after it stops.
+Describe what you want to achieve, agree on a direction, and let your agent get to work. chill-agent keeps the plan, progress, and questions in one place—so you can come back without catching up on a long chat.
 
-| Make the work visible | Keep the conversation together | Stay in control |
+| Agree on the goal | Leave useful feedback | Stay in control |
 | --- | --- | --- |
-| Nested Goals and readable Briefs | Annotate results; answer Letters | Native queue, Pause and Resume |
+| See the plan and progress | Comment right on the work | Pause, resume, or change direction |
 
-<p align="center"><img src="assets/workspace.png" alt="A Goal with its Brief, Conversation, Agent and optional continuation control" width="900" /></p>
+<p align="center"><img src="assets/workspace.png" alt="A Goal page showing its Brief, Conversation, and agent controls" width="900" /></p>
 
-## Try it
+## A place to come back to
 
-**Current integration: Codex Desktop on macOS, Node.js 24.** Core data commands are
-portable; other Desktop harnesses are not connected yet. Messaging and remote
-access are optional and off by default.
+- **Goals** describe the outcome. Larger jobs can be split into smaller Goals.
+- **Briefs** show the current plan or result, ready to read and comment on.
+- **Letters** bring you questions that need your decision.
+
+Your agent uses the same workspace. You can shape the work as it goes, without having to repeat the whole conversation.
+
+Want help keeping things moving? Turn on **24h** for a Goal. When the agent stops, chill-agent prompts it to revisit the agreed work. You can turn this off or pause the work whenever you need to.
+
+## Get started
+
+You will need **Codex Desktop on macOS, Node.js 24, and Git**. Setup currently uses the terminal:
 
 ```sh
 git clone https://github.com/game-dev-rta-club/chill-agnet.git
@@ -24,44 +32,28 @@ cd chill-agnet
 npm ci
 npm run build
 node bin/chill.mjs setup prepare --project /path/to/your/project
-# Use the stable command printed by setup:
-# <command> server start --configured
 ```
 
-For the skill-driven experience, load the built `dist/codex/chill-agent` plugin in Codex, then ask it to use chill-agent. The adjacent message-setup plugin is optional.
-
-## Two packages, one workspace
-
-```mermaid
-flowchart LR
-    A[chill-agent: skills + continuation] --> B[chill-agent-cli: data + Web + harness]
-    C[Your own workflow] --> B
-    B --> D[Local Goal workspace]
-```
-
-- [chill-agent](https://github.com/game-dev-rta-club/chill-agnet) composes the complete experience.
-- [chill-agent-cli](https://github.com/game-dev-rta-club/chill-agent-cli) exposes the foundation and a versioned extension contract.
-- The complete package pins one tested CLI release. No separate global CLI is required.
-- Repository updates do not move your Goal data. Runtime snapshots preserve the running version until restart.
-
-## How it feels
-
-1. Describe an outcome and agree on the scope.
-2. Read the current Brief; leave comments on the parts that matter.
-3. Let the agent work. Answer a Letter when a decision needs you.
-4. Review the result. Keep going, refine it, or mark the Goal done.
-
-The 24h control turns continuation on or off per Root Goal. It checks every 30 seconds and sends at most two nudges per substantive change. Running work, queued feedback, a manual pause, or uncertain state prevents a nudge. Turning it off does not cancel work already queued.
-
-## Develop and contribute
+Replace `/path/to/your/project` with the folder you want to work in. Setup prints a stable command; use it to start the Web workspace:
 
 ```sh
-npm ci
-npm run check
+<command> server start --configured
 ```
 
-Small fixes can go straight to a pull request. Discuss behavior and protocol changes
-in an issue first. See [Contributing](CONTRIBUTING.md), [Releases](RELEASING.md),
-[Security](SECURITY.md) and the [MIT license](LICENSE).
+Load the built `dist/codex/chill-agent` plugin in Codex, then ask:
+
+> Use chill-agent to help me plan and build my project.
+
+The package includes the workspace tools you need. There is no separate CLI to install. Notifications and phone access are optional; the adjacent `chill-agent-message-setup` plugin helps you set them up.
+
+## Building your own workflow?
+
+Use [chill-agent-cli](https://github.com/game-dev-rta-club/chill-agent-cli) if you want the workspace and agent connection with your own scheduling or orchestration. Its repository owns the CLI reference and extension documentation.
+
+## Help make it better
+
+Ideas, small fixes, and clearer wording are welcome. Start with [Contributing](CONTRIBUTING.md). Maintainers can find the release process in [Releasing](RELEASING.md).
+
+[Security](SECURITY.md) · [MIT license](LICENSE)
 
 This is experimental software. Keep backups of important workspaces.
