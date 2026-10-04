@@ -27,7 +27,7 @@ test('idle gets one readable nudge immediately; queue blocks followups',async()=
 test('two nudges per revision across restarts; completed result alone does not prove turn ended',async()=>{
  const x=fixture();await x.run();
  x.state.attempts[0].result={outcome:'no-work'};await x.run();assert.equal(x.sent.length,1);
- x.complete();await x.run();assert.equal(x.sent.length,2);assert.match(x.sent[1].text,/Are you sure there is nothing/);
+ x.complete();await x.run();assert.equal(x.sent.length,2);assert.match(x.sent[1].text,/Before you stop, take one more look/);
  x.complete();assert.equal((await x.run()).status,'exhausted');assert.equal(x.sent.length,2);
  x.f.revision='r2';await x.run();assert.equal(x.sent.length,3);assert.equal(x.state.history.length,2);
 });
@@ -122,19 +122,33 @@ test('real store: content revisions and internal results stay separate from Web 
  }finally{if(old===undefined)delete process.env.CHILL_AGENT_DATA_DIR;else process.env.CHILL_AGENT_DATA_DIR=old;await rm(dir,{recursive:true,force:true});}
 });
 
-test('continuation gives a full-tree reading command and names waiting questions without counters or report dumps',()=>{
+test('continuation gives a filtered index command and names waiting questions without counters or report dumps',()=>{
  const id='00000000-0000-0000-0000-000000000123';
- const f={...idle(),context:{latestReport:'長い過去の報告',letters:[{goalId:'27',title:'対象を選んでください'}]}};
+ const f={...idle(),context:{goals:{total:3,unfinished:2,waiting:0},latestReport:'長い過去の報告',letters:[{goalId:'27',title:'対象を選んでください'}]}};
  const text=continuationMessage(f,1,id);
  assert.match(text,/Goal #27: “対象を選んでください”/);
  assert.match(text,/chill goal review --id 1/);
  assert.match(text,/chill goal letter/);
  assert.doesNotMatch(text,/1\/2|2\/2|配送照合|<!--|長い過去の報告|回答待ち：1件/);
  assert.equal(text.split(id).length-1,1,'identifier only appears in the result command');
- assert.match(continuationMessage(f,2,id),/Are you sure there is nothing/);
+ assert.match(continuationMessage(f,2,id),/Before you stop, take one more look/);
  assert.doesNotMatch(continuationMessage(f,2,id),/最後の自動確認|2\/2/);
 });
 
 test('both continuation templates are English while saved Letter titles retain their wording',()=>{
  for(const n of [1,2]) assert.doesNotMatch(continuationMessage(idle(),n,'id'),/[\u3040-\u30ff\u3400-\u9fff]/);
+});
+
+test('nudge describes unfinished Goals, pending Letters, and a settled tree without confusing them',()=>{
+ const message=(goals,letters=[])=>continuationMessage({...idle(),context:{goals,letters}},1,'id');
+ const unfinished=message({total:5,unfinished:2,waiting:1});
+ assert.match(unfinished,/2 unfinished Goals, including 1 Waiting/);
+ assert.match(unfinished,/review --id 1 --state unfinished/);
+ assert.doesNotMatch(unfinished,/Every Goal is marked Done/);
+ const pending=message({total:5,unfinished:0,waiting:0},[{goalId:'4',title:'Approve the result?'}]);
+ assert.match(pending,/Every Goal is marked Done, but/);assert.match(pending,/review --id 1 --letters/);assert.match(pending,/Approve the result/);
+ const done=message({total:5,unfinished:0,waiting:0});
+ assert.match(done,/Every Goal is marked Done, and no Letters/);assert.match(done,/review --id 1\n/);assert.match(done,/leave the project at rest/);
+ for(const text of [unfinished,pending,done])assert.doesNotMatch(text,/read every Goal|whole tree|1\/2|2\/2|latestReport/);
+ assert.match(continuationMessage(idle(),1,'id'),/goal tree --id 1/,'older CLI releases get the supported compact tree command');
 });
