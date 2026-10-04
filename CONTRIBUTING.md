@@ -28,6 +28,14 @@ Run focused tests while developing, then the full check before your pull request
 CI also checks portable JavaScript contracts on Windows; that is not a promise
 of a Windows Desktop integration. Keep generated bundles out of source control.
 
+## Documentation ownership
+
+Write for people using the complete experience. Keep the README focused on outcomes,
+getting started, and user controls. Link to chill-agent-cli for command details,
+storage/runtime behavior, and extension contracts instead of copying them.
+A CLI-only change should not require a main README edit unless the user-facing
+setup or experience changes. Dependency upgrades remain a separate release task.
+
 ## Pull requests
 
 Keep each pull request focused on one logical change. A pull request should:
