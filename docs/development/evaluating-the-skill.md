@@ -25,6 +25,14 @@ unclear goal, making delegated choices, asking an asynchronous question,
 respecting authorization, interpreting feedback, verifying completion and
 responding to AutoContinue.
 
+Include situations that start with the user's conversation, before any Goal or
+success criteria exist. Let the evaluator frame the outcome and choose the next
+action, then continue that situation with new evidence or user feedback. This
+exposes a Goal narrowed to one convenient task, which tests with prewritten
+criteria can miss. Pair exploratory work with bounded deliverables and achieved
+outcomes so that keeping a discussion open does not become endless work or a
+new approval requirement.
+
 Ask what the agent would do next and where it would leave its response. Give one
 question per turn. Do not coach it between questions. Keep scenarios synthetic:
 reading the skill and saving an answer is enough; no production messages,
