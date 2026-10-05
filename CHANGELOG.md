@@ -1,3 +1,9 @@
+---
+keyPoints: >-
+  Version 0.1.0 established the standalone distribution with stable runtime commands
+  and a separately tested CLI dependency. Entries describe released package changes.
+---
+
 # Changelog
 
 ## 0.1.0
