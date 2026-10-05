@@ -35,7 +35,7 @@ test('child control maps to its Root; existing state/counters survive toggle and
 test('activity is a bounded read-only journal, independent of enablement and stale execution phase',()=>{
  const state={enabled:false,status:'running',attempts:[{id:'new',at:'2026-01-02',phase:'running',message:'exact\nmessage',summary:'Check Goals',result:{outcome:'no-work',at:'2026-01-03'}}],history:Array.from({length:23},(_,i)=>({id:`old-${i}`,at:'2026-01-01',phase:'completed',completedAt:'2026-01-01'}))};
  const before=structuredClone(state),a=continuationActivity(state);
- assert.equal(a.status,'Off');assert.equal(a.total,24);assert.equal(a.entries.length,20);
+ assert.equal(a.status,'Off');assert.equal(a.total,24);assert.equal(a.activeCount,0);assert.equal(a.entries.length,20);
  assert.equal(a.entries[0].id,'new');assert.equal(a.entries[0].message,'exact\nmessage');assert.equal(a.entries[0].result.label,'No work reported');assert.equal(a.entries[0].status,'Result received');
  assert.equal(a.entries[1].message,null);assert.deepEqual(state,before);
  assert.equal(continuationActivity({...state,enabled:true,checkedAt:'2020-01-01'}).status,'Checking');
@@ -48,4 +48,16 @@ test('empty registry works, isolated tick failure does not stop other extensions
  assert.deepEqual(await createExtensionHost([]).controls('1'),[]);
  let ticks=0,errors=0;const host=createExtensionHost([{id:'bad',read:async()=>null,tick:async()=>{throw Error('bad');}},{id:'good',read:async()=>({enabled:false}),tick:async()=>ticks++}],{onError:()=>errors++});
  await host.tick();assert.equal(ticks,1);assert.equal(errors,1);assert.equal((await host.controls('1')).length,1);
+});
+
+test('active count excludes history, finished runs, results and unconfirmed delivery',()=>{
+ const history=[{phase:'running'},{phase:'completed',completedAt:1}];
+ for(const phase of ['sending','queued','running']){
+  const state={enabled:false,history,attempts:[{phase}]};
+  assert.equal(continuationActivity(state).activeCount,1,'turning monitoring off does not cancel pending work');
+  assert.equal(continuationActivity({...state,attempts:[{phase,completedAt:1}]}).activeCount,0);
+  assert.equal(continuationActivity({...state,attempts:[{phase,result:{outcome:'worked',at:1}}]}).activeCount,0);
+ }
+ assert.equal(continuationActivity({history,attempts:[{phase:'uncertain'}]}).activeCount,0);
+ assert.equal(continuationActivity(null).activeCount,0);
 });
