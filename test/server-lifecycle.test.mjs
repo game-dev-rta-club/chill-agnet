@@ -245,7 +245,7 @@ test('extension controls share Root settings, reject foreign origins, and leave 
  await f.run(['create','--title','Child','--parent','1']);
  const read=async id=>(await fetch(`${f.url}/api/goals/${id}/extensions`)).json();
  const change=(id,enabled,origin=f.url)=>fetch(`${f.url}/api/goals/${id}/extensions/continuation`,{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({rootId:'1',enabled})});
- assert.deepEqual(await read('2'),[{id:'continuation',label:'Auto-continue',rootId:'1',enabled:false,placement:'header',icon:'repeat'}]);
+ assert.deepEqual((await read('2')).filter(c=>c.id==='continuation'),[{id:'continuation',label:'Auto-continue',rootId:'1',enabled:false,placement:'header',icon:'repeat'}]);
  assert.equal((await change('2',true,'https://foreign.example')).status,403);
  assert.equal((await change('2',true)).status,200);
  assert.equal((await read('1'))[0].enabled,true);

@@ -17,6 +17,7 @@ adds the monitor module and command manifest. The runtime runs one Web server.
 | Trusted extension hosting and common Web controls | CLI |
 | Skills, package composition and continuation decisions | Main package |
 | Request wording, attempt allowance and result journal | Main package |
+| Notification profiles, Root switches, preparation and receipts | Main package |
 
 The dependency points from this package to the CLI. The monitor imports the
 versioned public extension API; it does not own the CLI's internal files.
@@ -30,6 +31,9 @@ flowchart LR
 ```
 
 The [AutoContinue guide](using/auto-continue.md) owns the policy explanation.
+The [Notifications guide](using/notifications.md) explains optional alerts;
+its policy reserves saved messages while the assigned agent uses a connected
+host tool to send them. It adds no timer or server keep-alive.
 The CLI owns [extension mechanics](https://github.com/game-dev-rta-club/chill-agent-cli/blob/main/docs/extensions.md)
 and [server lifetime](https://github.com/game-dev-rta-club/chill-agent-cli/blob/main/docs/runtime/server.md).
 The extension tells that host when its work still needs it: active, unresolved

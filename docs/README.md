@@ -13,6 +13,7 @@ part you want to understand:
 | --- | --- |
 | Agree on work, leave feedback and review the result | [Work together](using/working-together.md) |
 | Let the agent check for work it can continue | [AutoContinue](using/auto-continue.md) |
+| Hear when results or decisions need your attention | [Notifications](using/notifications.md) |
 | Understand why there are two repositories | [Architecture](architecture.md) |
 | Change a skill or inspect a built plugin | [Build and plugin layout](development/build-and-plugins.md) |
 | Check whether skill guidance leads to useful decisions | [Evaluate the skill](development/evaluating-the-skill.md) |

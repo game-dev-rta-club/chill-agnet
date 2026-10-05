@@ -1,6 +1,6 @@
 ---
 keyPoints: >-
-  npm run build combines the installed CLI with the monitor and emits two Codex
+  npm run build combines the installed CLI with application extensions and emits two Codex
   plugins. Edit sources under plugins/; dist/ is generated and is not a source tree.
 ---
 
@@ -8,12 +8,12 @@ keyPoints: >-
 
 Run `npm ci` and `npm run build` from this repository with Node.js 24. The build
 uses the installed CLI package's public `./runtime` export, then adds this
-repository's monitor and extension manifest. It does not fetch a newer CLI by
+repository's continuation and notification extensions. It does not fetch a newer CLI by
 itself.
 
 | Source | Generated output | Purpose |
 | --- | --- | --- |
-| Installed CLI + `lib/` + monitor entry | `dist/runtime/` | Web, CLI and optional continuation in one runtime |
+| Installed CLI + `lib/` + monitor entry | `dist/runtime/` | Web, CLI and optional extensions in one runtime |
 | `plugins/chill-agent/` + composed runtime | `dist/codex/chill-agent/` | Core skill with its runtime |
 | `plugins/chill-agent-message-setup/` + link helper | `dist/codex/chill-agent-message-setup/` | Optional setup skill that finds the prepared core |
 

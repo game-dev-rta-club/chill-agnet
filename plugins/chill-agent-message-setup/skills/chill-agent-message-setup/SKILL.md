@@ -102,10 +102,18 @@ node '<plugin-root>/bin/chill-link.mjs' --help
 
 The helper finds the prepared core without relying on its plugin cache path.
 Use the same data directory as core. If core is missing, install and run
-`chill-agent` first. Read shared settings before changing them; new chats should
-reuse the saved method, recipient, and occasions. The agent sends through the
+`chill-agent` first. Read saved settings before changing them. With the
+Notifications extension, `settings show --id <GOAL>` returns that Root's
+preferences; `settings show` also lists saved connection profiles. Configure
+the intended Root with `settings notifications --id <GOAL>`, following its help.
+Reuse an agreed profile when suitable. New Roots start Off; enabling one Root
+does not enable others. Web On/Off retains the connection, and Phone access
+stays independent. The agent sends through the
 available host tool after saving a Comment or Letter selected for notification; server/Hook reminders do not send
-messages themselves. `settings notice --help` explains the fresh lookup.
+messages themselves. `settings notice --help` explains preparation and the
+returned result command. Preparation reserves a saved event once; missing or
+uncertain receipts do not authorize another send. Older runtimes without this
+extension use the shared settings described by their installed help.
 
 ### Slack Reminder delivery
 
