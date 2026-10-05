@@ -31,6 +31,10 @@ The optional setup instructions live in
 References under each skill travel with it. These are agent instructions;
 the user and developer guides in `docs/` explain the product and implementation.
 
+For substantial guidance changes, use the
+[decision evaluation workflow](evaluating-the-skill.md) to check how a fresh agent
+uses the skill.
+
 Edit those source files, then rebuild. Do not edit `dist/` or an installed plugin
 cache as the source of a change. The build copies the package version into plugin
 manifests. Loading a generated plugin into Codex is a separate installation step;
