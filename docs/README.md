@@ -15,6 +15,7 @@ part you want to understand:
 | Let the agent check for work it can continue | [AutoContinue](using/auto-continue.md) |
 | Understand why there are two repositories | [Architecture](architecture.md) |
 | Change a skill or inspect a built plugin | [Build and plugin layout](development/build-and-plugins.md) |
+| Check whether skill guidance leads to useful decisions | [Evaluate the skill](development/evaluating-the-skill.md) |
 | Test a change across both repositories | [Develop across repositories](development/two-repositories.md) |
 | Publish an update | [Releasing](../RELEASING.md) |
 
