@@ -10,7 +10,7 @@ await rm(target,{recursive:true,force:true});await mkdir(target,{recursive:true}
 await copyRuntime(cli,target);
 await cp(join(root,'lib'),join(target,'lib'),{recursive:true});
 await cp(join(root,'bin/chill-monitor.mjs'),join(target,'bin/chill-monitor.mjs'));
-await writeFile(join(target,'extensions.json'),JSON.stringify({modules:['./lib/continuation-extension.mjs'],commands:{monitor:'bin/chill-monitor.mjs'},help:{monitor:{summary:'Optional continuation checks.',detail:'Use chill monitor --help for controls and internal results.'}}}));
+await writeFile(join(target,'extensions.json'),JSON.stringify({modules:['./lib/continuation-extension.mjs','./lib/notifications.mjs'],notificationProvider:'./lib/notifications.mjs',commands:{monitor:'bin/chill-monitor.mjs'},help:{monitor:{summary:'Optional continuation checks.',detail:'Use chill monitor --help for controls and internal results.'}}}));
 if(process.argv.includes('--test'))await cp(join(root,'test'),join(target,'test'),{recursive:true});
 for(const name of ['chill-agent','chill-agent-message-setup']){
  const plugin=join(root,'dist/codex',name);await rm(plugin,{recursive:true,force:true});

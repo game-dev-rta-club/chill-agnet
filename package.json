@@ -1,6 +1,6 @@
 {
   "name": "@game-dev-rta-club/chill-agent",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "Leave the work to your agent. A shared Goal workspace with optional continuation.",
   "license": "MIT",
@@ -27,6 +27,6 @@
     "prepack": "npm run build"
   },
   "dependencies": {
-    "@game-dev-rta-club/chill-agent-cli": "https://github.com/game-dev-rta-club/chill-agent-cli/releases/download/v0.1.0/game-dev-rta-club-chill-agent-cli-0.1.0.tgz"
+    "@game-dev-rta-club/chill-agent-cli": "https://github.com/game-dev-rta-club/chill-agent-cli/releases/download/v0.2.0/game-dev-rta-club-chill-agent-cli-0.2.0.tgz"
   }
 }
