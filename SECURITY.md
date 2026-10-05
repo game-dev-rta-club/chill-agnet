@@ -1,3 +1,9 @@
+---
+keyPoints: >-
+  Report vulnerabilities privately with version and reproduction details, without
+  private workspace data. Security support has no guaranteed response or release schedule.
+---
+
 # Security Policy
 
 ## Maintenance status
@@ -24,9 +30,14 @@ Include:
 
 ## Scope
 
-The shipped CLI, Web interface, extension host, skills and continuation policy are
-in scope. Report vulnerabilities in third-party services to their upstream project.
-Do not include private Goal data, credentials or user conversations in reports.
+This repository owns skills, continuation policy and the composed package. The
+shared CLI, Web interface and extension host are maintained in
+[chill-agent-cli](https://github.com/game-dev-rta-club/chill-agent-cli/blob/main/SECURITY.md).
+If an issue crosses that boundary or you are unsure where it belongs, report it
+privately here with the affected package versions.
+
+Report vulnerabilities in third-party services to their upstream project. Do not
+include private Goal data, credentials or user conversations in reports.
 
 ## Disclosure and attribution
 

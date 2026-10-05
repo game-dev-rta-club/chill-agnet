@@ -14,6 +14,9 @@ public/vendor/
 # Local research and experiments, preserved outside the OSS source.
 /docs/*
 !/docs/architecture.md
+!/docs/README.md
+!/docs/using/
+!/docs/development/
 /chill-software-factory/
 *.tgz
 

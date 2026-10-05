@@ -1,3 +1,9 @@
+---
+keyPoints: >-
+  Agree on an outcome and return to one workspace for plans, feedback and decisions.
+  Start with the complete Codex plugin; AutoContinue and notifications are optional.
+---
+
 <p align="center"><img src="assets/overview.svg" alt="chill-agent: agree on a goal, let the agent work, review the result" width="100%" /></p>
 
 <p align="center"><a href="https://github.com/game-dev-rta-club/chill-agnet/actions"><img alt="CI" src="https://github.com/game-dev-rta-club/chill-agnet/actions/workflows/ci.yml/badge.svg" /></a> <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-green" /> <img alt="Node.js 24" src="https://img.shields.io/badge/node-24-339933" /></p>
@@ -20,7 +26,7 @@ Describe what you want to achieve, agree on a direction, and let your agent get 
 
 Your agent uses the same workspace. You can shape the work as it goes, without having to repeat the whole conversation.
 
-Want help keeping things moving? Turn on **24h** for a Goal. When the agent stops, chill-agent prompts it to revisit the agreed work. You can turn this off or pause the work whenever you need to.
+Want help keeping things moving? Turn on [AutoContinue](docs/using/auto-continue.md). After the agent's run ends, chill-agent asks it to pick up any agreed work it can continue. You stay in control of what it takes on.
 
 ## Get started
 
@@ -45,6 +51,8 @@ Load the built `dist/codex/chill-agent` plugin in Codex, then ask:
 > Use chill-agent to help me plan and build my project.
 
 The package includes the workspace tools you need. There is no separate CLI to install. Notifications and phone access are optional; the adjacent `chill-agent-message-setup` plugin helps you set them up.
+
+Next, see [how to work together](docs/using/working-together.md), or find a focused guide in [the documentation](docs/README.md).
 
 ## Building your own workflow?
 
