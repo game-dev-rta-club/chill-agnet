@@ -22,6 +22,8 @@ test('idle gets one readable nudge immediately; queue blocks followups',async()=
  const x=fixture();await x.run();assert.equal(x.sent.length,1);
  assert.match(x.sent[0].text,/carry on with anything/);assert.match(x.sent[0].text,/monitor result/);
  assert.doesNotMatch(x.sent[0].text,/queueCount|latestTurn/);
+ assert.equal(x.state.attempts[0].message,x.sent[0].text,'saved text is exactly what is sent');
+ assert.ok(x.state.attempts[0].summary);
  x.f.queue=[{messageId:x.sent[0].id}];await x.run();assert.equal(x.sent.length,1);
 });
 test('two nudges per revision across restarts; completed result alone does not prove turn ended',async()=>{
