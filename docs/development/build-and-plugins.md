@@ -13,7 +13,7 @@ itself.
 
 | Source | Generated output | Purpose |
 | --- | --- | --- |
-| Shared skill + composed runtime | `dist/skills/chill-agent/` | Standalone skill; runtime nested under `scripts/runtime/` |
+| Shared skill + composed runtime | `dist/skills/chill-agent/` | Thin standalone skill; fixed npm input in `scripts/runtime.json` |
 | Installed CLI + `lib/` + `extensions/` + monitor entry | `dist/runtime/` | Web, CLI and optional extensions in one runtime |
 | `plugins/chill-agent/` + composed runtime | `dist/codex/chill-agent/` | Codex skill with its runtime |
 | Shared skill + native manifest + composed runtime | `dist/claude/chill-agent/` | Experimental Claude plugin; hooks need explicit setup |
@@ -73,12 +73,13 @@ does not replace an already running Web server.
 Implementation: [build script](../../scripts/build.mjs),
 [development entry](../../bin/chill.mjs), [package manifest](../../package.json).
 
-The standalone skill is the preferred user entry. Its bundled starter selects
-an isolated project and starts Web when invoked by the agent; native Hook
-activation is still required. See [installation](../using/install.md). Runtime
-copying is one-way, so the embedded runtime does not recursively contain the
-standalone artifact. Existing plugin and immutable-runtime skill layouts use
-the same starter with the runtime at their package root.
+The standalone skill is the preferred user entry. It installs the exact app
+commit using npm outside the project Git tree; compatibility plugins still
+contain their runtime. See [runtime acquisition](runtime-acquisition.md) and
+[installation](../using/install.md). Generated pins default to the checkout HEAD;
+use a clean committed revision available on GitHub before distributing a skill.
+`CHILL_SKILL_REVISION` explicitly selects a full commit during Git dependency
+preparation. Building alone does not change an active Web server.
 
 For the opt-in database build and isolated Web/native checks, see
 [SQLite qualification](sqlite-qualification.md).

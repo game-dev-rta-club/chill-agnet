@@ -23,16 +23,17 @@ assert(JSON.parse(await readFile(join(root,'package.json'),'utf8')).files.includ
 console.log(`Verified identical ${expected.length}-file skills in runtime and both plugins, isolated metadata and explicit hook setup.`);
 const standalone=join(root,'dist/skills/chill-agent');
 for(const file of expected)assert.deepEqual(await readFile(join(standalone,file)),await readFile(join(source,file)),`standalone/${file}`);
-for(const file of ['bin/chill-setup.mjs','bin/chill-server.mjs','extensions.json','skills/chill-agent/SKILL.md','public/themes.css'])await access(join(standalone,'scripts/runtime',file));
-for(const file of ['test','.claude-plugin','.codex-plugin','skills/chill-agent/scripts/runtime'])await assert.rejects(access(join(standalone,'scripts/runtime',file)));
-assert(JSON.parse(await readFile(join(root,'package.json'),'utf8')).files.includes('dist/skills'));
-console.log('Verified self-contained standalone skill and non-recursive runtime.');
+await assert.rejects(access(join(standalone,'scripts/runtime')));
+const pin=JSON.parse(await readFile(join(standalone,'scripts/runtime.json'),'utf8'));
+assert.match(pin.spec,/#([a-f0-9]{40})$/);
+assert.deepEqual(await files(standalone),[...expected,'scripts/runtime.json'].sort());
+console.log('Verified thin standalone skill and immutable runtime pin.');
 
 // Host-specific routing belongs to adapters, not shared action guidance.
 for(const file of expected.filter(name=>name.endsWith('.md'))){
  assert(!/\b(?:Codex|Claude|codex-desktop|claude-code)\b/.test(await readFile(join(source,file),'utf8')),`Host branch leaked into shared skill: ${file}`);
 }
-for(const target of ['dist/runtime','dist/codex/chill-agent','dist/claude/chill-agent','dist/skills/chill-agent/scripts/runtime']){
+for(const target of ['dist/runtime','dist/codex/chill-agent','dist/claude/chill-agent']){
  for(const file of ['bin/chill-session.mjs','lib/harness-session.mjs','extensions/harnesses/index.mjs','extensions/harnesses/codex-desktop.mjs','extensions/harnesses/claude-code.mjs'])await access(join(root,target,file));
  assert.equal(JSON.parse(await readFile(join(root,target,'extensions.json'),'utf8')).commands.session,'bin/chill-session.mjs');
 }
