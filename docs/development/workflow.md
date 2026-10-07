@@ -34,12 +34,13 @@ integrate a complete slice before opening another dependent topic. Use
 5. Before promotion to `main`, pin the exact stable CLI release archive and lockfile
    and verify ordinary `npm ci` plus `npm run check`, with no development override.
 
-The development-input script/artifact pipeline above is an adoption requirement,
-not implemented by this document. Current CI uses the committed release dependency.
-Until a reproducible development input or compatible release is adopted, a
-CLI-dependent app PR remains Draft. Do not merge a knowingly broken branch or
-publish a release simply to get around that gate. Record the blocker and prioritize
-establishing this dependency path over accumulating more app feature branches.
+The fixed development input is now recorded in `development-cli.json` and built
+by `npm run cli:development`; `npm run check:development` prepares it and checks
+the app. See [the archive workflow](two-repositories.md) for exact commands.
+Remote preparation requires that commit to be available in the official CLI
+repository. Adoption into develop CI is still pending; current CI continues to
+check the stable package dependency. Until that gate is connected and green, a
+CLI-dependent app PR remains Draft. Do not publish a release merely to bypass it.
 
 This separates frequent development integration from public release cadence.
 A local `--no-save` archive test remains useful evidence, but does not by itself

@@ -46,6 +46,38 @@ rebuilds the normal runtime.
 A local workspace helper may automate those steps, but it is not required by
 either public repository. Do not publish a dependency on a personal file path.
 
+## Reproduce the pinned development CLI
+
+`development-cli.json` records the official CLI repository and full commit SHA.
+With Node.js 24, use:
+
+```sh
+npm ci
+npm run check:development
+```
+
+The command fetches that exact commit into a disposable directory, exports only
+committed files, installs its locked dependencies, packs the CLI and installs the
+archive without saving it into the app manifest or lockfile. It prints the source
+commit and package integrity. The temporary build is removed even on failure.
+No user's server, store, hooks or Git checkout is changed; the app's node_modules
+and generated build outputs do change. `npm ci` restores the stable dependency.
+
+Before a CLI commit has been pushed, use its local repository as a source:
+
+```sh
+npm ci
+npm run cli:development -- --source ../chill-agent-cli
+npm run check
+```
+
+This still exports the configured commit, ignoring dirty files, untracked files
+and the checkout's current HEAD. It does not use the sibling's node_modules.
+Local success does not prove the commit is fetchable from GitHub. Push and
+integrate the CLI input first, then adopt the same remote command in develop CI;
+keep stable main checks on the released archive. Do not change the SHA to a branch
+name or silently fall back to a different package after a fetch/build failure.
+
 ## Adopt and document the change
 
 Merge the CLI change into develop first when the app needs a new host capability.
