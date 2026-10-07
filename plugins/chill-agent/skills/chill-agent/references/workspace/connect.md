@@ -19,8 +19,10 @@ script relative to the installed skill and run:
 node '<skill-directory>/scripts/start.mjs' guide --harness '<calling-harness-id>'
 ```
 
-This is read-only. A runtime that supports it also exposes the same result as
-`session guide --harness <calling-harness-id>`. Keep using the bundled reader
+This does not change Goals or connect a conversation. On first invocation the
+starter may install its fixed runtime with npm; run from the native project
+directory so the installation remains project-local. A runtime that supports it also exposes the same result as
+`session guide --harness <calling-harness-id>`. Keep using the installed reader
 when an established workspace has an older runtime; do not upgrade it just to
 read guidance. Follow its `operations`, confirmation rules, `nextActions`
 and constraints; reuse that interface while the connection is unchanged. It
