@@ -81,5 +81,5 @@ in this work; this is a set of entry points, not a sequence to run every time.
 
 Reuse the stable CLI prefix from setup or incoming feedback. For a new connection,
 read [Connect this conversation](references/workspace/connect.md) first; its
-harness-specific guide also governs Root creation, receipts and work selection.
+selected runtime interface governs Root creation, receipts and work selection.
 Use installed `--help` for exact arguments.

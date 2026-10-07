@@ -1,56 +1,54 @@
 ---
 keyPoints: >-
-  On first skill invocation the agent prepares an isolated project and starts Web
-  with the bundled starter. Reuse established connections; native hook approval
-  and Claude SessionStart are separate from installing files.
+  Ask the runtime for the calling connection's interface. Reuse a verified
+  workspace; on first use let the runtime prepare it and follow its next actions.
 ---
 
 # Connect this conversation
 
-Keep the calling harness and its conversation/context. A project directory or
-Goal ID is not authority to hand work to a different conversation.
+Keep the calling harness and conversation/context. A project directory or Goal
+ID does not authorize handing work to another conversation.
 
-## Reuse an established connection
+## Read the selected interface
 
-When working from incoming chill feedback or an already verified connection,
-reuse its exact stable CLI prefix, data directory and port. Read its current
-context; do not run first-use setup against the current shell directory, migrate
-its Goals or replace its runtime just because a newer skill is installed.
-For an explicit new-project request, use that project's directory instead.
-
-## First use after installing the skill
-
-The user installs the complete skill folder and invokes chill-agent. Do the
-preparation yourself; do not give them a list of setup commands to execute.
-Identify the calling harness and its actual project directory, not the skill
-installation folder. If either is unavailable, ask only for that missing fact.
-For Claude, read [the native connection guide](claude-code.md) first, including
-how to identify its native project/settings directory.
-
-Resolve `scripts/start.mjs` relative to this installed skill's directory and run
-it with the available Node.js 24 executable:
+Identify the calling harness from the current host, never from a model name or
+another Goal's binding. Do not guess when the host is unknown. Resolve this
+script relative to the installed skill and run:
 
 ```sh
-node '<skill-directory>/scripts/start.mjs' --project '<project-directory>' --harness codex-desktop
+node '<skill-directory>/scripts/start.mjs' guide --harness '<calling-harness-id>'
 ```
 
-Use `--harness claude-code` inside Claude Code. This bundled helper prepares a
-project-isolated runtime, hooks and data store and starts its local Web. It
-reuses the project's store and chooses its port automatically. It does not
-create a Root, turn on Auto mode, enable public access, or grant native
-permissions. Previously saved public-access settings remain in effect.
-No separate CLI installation or user-run setup script is required. A missing
-runtime means an incomplete installation; request the complete built skill,
-not an arbitrary download or another harness.
+This is read-only. A runtime that supports it also exposes the same result as
+`session guide --harness <calling-harness-id>`. Keep using the bundled reader
+when an established workspace has an older runtime; do not upgrade it just to
+read guidance. Follow its `operations`, confirmation rules, `nextActions`
+and constraints; reuse that interface while the connection is unchanged. It
+owns host-specific commands, native activation and unsupported operations.
+No operation, or a null operation, is permission to use another host's route.
 
-Keep the returned stable `command` prefix for later CLI actions. Setup output
-and a running Web are not proof that feedback can reach this conversation.
-Codex may require native `/hooks` review/trust; explain just that necessary
-step. For Claude, verify the main-tool identity handoff as the native guide
-requires; when SessionStart is missing, explain exit and resume of this same
-conversation. Never clear, fork, fabricate identity or approve trust on behalf
-of the user. Report what is ready and what still needs native activation.
+## Prepare only when needed
 
+Incoming feedback or an already verified connection supplies the stable prefix,
+data directory and port to reuse. Do not replace that workspace or its runtime
+merely because a newer skill is installed. An explicit new-project request uses
+that project's directory instead.
+
+On first use, identify the native project directory using the selected interface.
+Do not use the skill installation folder. Run the preparation yourself:
+
+```sh
+node '<skill-directory>/scripts/start.mjs' start --project '<native-project-directory>' --harness '<calling-harness-id>'
+```
+
+Use the available Node.js 24 executable. The runtime prepares the isolated store
+and starts or reuses Web, returning its stable `command` and selected interface.
+Follow the returned next actions and verify connection confirmation before Root
+creation. Native trust or activation may require the user; never approve it on
+their behalf. An installed file or a running Web is not proof of connection.
+
+Do not give the user a setup command list. An incomplete installation needs the
+complete built skill, not a different harness or an arbitrary runtime download.
 After connection verification, follow [Create a Goal](../goals/create.md) and
-[Use the CLI](use-cli.md). Open the returned local Web URL once a useful Goal
-exists. Preserve established public links, ports, settings and other queues.
+[Use the CLI](use-cli.md), and open the local Web once a useful Goal exists.
+Preserve existing public-access settings, queues and manual pauses.

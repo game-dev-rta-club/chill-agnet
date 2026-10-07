@@ -19,8 +19,8 @@ to it where needed. When moving a guide, update its entry and inbound links;
 `node scripts/check-skill.mjs` validates reachability and local links. The build
 runs this check and copies the whole skill into the runtime and both host plugins.
 [Connection guidance](../../plugins/chill-agent/skills/chill-agent/references/workspace/connect.md)
-selects Codex or native Claude operations without duplicating the shared decision
-principles. See the [Claude entry](claude-plugin.md) for its experimental limits.
+asks the runtime for the selected connection interface; shared guides contain
+no host-specific receipt or activation rules. See [harness boundaries](harness-boundaries.md). See the [Claude entry](claude-plugin.md) for its experimental limits.
 
 ## Direct handoffs, current facts
 

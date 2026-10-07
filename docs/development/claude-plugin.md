@@ -26,7 +26,7 @@ The [official plugin layout](https://code.claude.com/docs/en/plugins-reference#s
 keeps the manifest in `.claude-plugin/` and the skill at the plugin root's `skills/`.
 
 Loading the skill does not establish a return path. The shared entry routes Claude
-to [its connection guide](../../plugins/chill-agent/skills/chill-agent/references/workspace/claude-code.md).
+to [its connection guide](../../extensions/harnesses/claude-code.mjs).
 It explicitly prepares native project hooks, preserves the user's permissions and
 other hooks, and distinguishes settings being saved from native activation. A
 SessionStart handoff is needed; if it has not occurred, use the native exit-and-resume
@@ -57,8 +57,12 @@ and both plugins, that their links resolve, and that host metadata stays separat
 It also runs the application regression tests. Validate the built native manifest
 with `claude plugin validate --strict dist/claude/chill-agent`.
 
-The opt-in `scripts/probe-claude-plugin.mjs` in the CLI checkout loads this actual
-plugin in a disposable native print-mode conversation. It prepares hooks in a
+The older opt-in `scripts/probe-claude-plugin.mjs` in the CLI checkout exercised
+the plugin in a disposable native print-mode conversation. Its native-guide
+Markdown assertion predates the runtime adapter interface; do not use it unchanged
+as acceptance evidence for the current artifact. The results below describe the
+earlier layout. See [harness boundaries](harness-boundaries.md) for the current
+contract. It prepares hooks in a
 temporary project, asks the skill to record an agreed outcome, and checks the saved
 Root/Comment and the references read. A successful metadata check alone is not
 evidence that the agent used the native guide or created a correctly bound Root.

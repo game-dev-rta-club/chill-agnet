@@ -1,0 +1,28 @@
+export default {
+ id:'claude-code',
+ async setupOptions({execute,node,setupFile,selection,options}){
+  const status=JSON.parse((await execute(node,[setupFile,'status',...selection],options)).stdout);
+  return status.idleWatchMs==null?[]:['--idle-watch-ms',String(status.idleWatchMs)];
+ },
+ guidance:{
+  operations:{
+   inspect:{command:'connection show',confirmation:'Run through the main Bash tool. Verify the SessionStart identity handoff; existing Root session AND context must match.'},
+   createRoot:{command:'connection create-goal --help',confirmation:'A request marker is pending. Only main PostToolUse confirmation establishes the saved Root.'},
+   receipt:{command:'connection activity --event <ID> --state <STATE>',states:['working','completed','failed'],confirmation:'Use separate main Bash calls and preserve stdout. Wait for main-hook confirmation; inspect connection request --id <ID> for uncertain results before any retry.'},
+   selectWork:null,
+   inbox:{command:'connection inbox',confirmation:'Recover pending input or establish a verified prompt through the main hook before expecting ordinary tool hooks to receive input.'}
+  },
+  nextActions:[
+   'Use the actual native project/settings directory. Local settings may be at the main Git repository root. Do not substitute the skill installation directory.',
+   'Review native Hooks when required. If SessionStart is missing, explain exiting and resuming THIS SAME conversation. Do not clear, fork, fabricate identity variables or launch a second writer.',
+   'Run connection show from main Bash to verify the handoff before creating a Root. Run each connection action separately; a shell receipt alone is not confirmation.',
+   'There is no deferred Queue state or goal work route. Keep independent input in the current work plan; do not claim that an unclaimed event will start a new turn by itself.',
+   'Children, Briefs, Comments, Letters and ordinary reads use the shared goal commands. Existing Root connections cannot be reassigned.'
+  ],
+  constraints:[
+   'Setup preserves native permissions, other Hooks and disablement; it never enables Auto mode.',
+   'An explicitly configured idle watch is finite and requires the same conversation to remain open. Expiry does not renew it. Do not promise overnight reception.',
+   'Pause holds future continuation, not native execution. Model settings, usage, live execution status and cancellation remain native controls.'
+  ]
+ }
+};

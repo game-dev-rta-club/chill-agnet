@@ -57,5 +57,5 @@ expired watch need recovery; refreshing Web does not start reception.
 
 Keep the saved message until its receipt and reply are confirmed. If the cause
 is unclear, retain its event ID and report the startup method and connection
-state. The agent's [native connection guide](../../plugins/chill-agent/skills/chill-agent/references/workspace/claude-code.md)
+state. The agent's [native connection guide](../../extensions/harnesses/claude-code.mjs)
 covers inbox recovery and confirmed receipts.

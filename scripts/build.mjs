@@ -30,8 +30,8 @@ for(const [path,pkg] of Object.entries(appLock.packages)){
  await cp(join(root,path),join(target,path),{recursive:true});runtimeLock.packages[path]=pkg;
 }
 await writeFile(join(target,'npm-shrinkwrap.json'),JSON.stringify(runtimeLock,null,2)+'\n');
-await cp(join(root,'bin/chill-monitor.mjs'),join(target,'bin/chill-monitor.mjs'));
-await writeFile(join(target,'extensions.json'),JSON.stringify({agentGuide:'skills/chill-agent/SKILL.md',connectionExtensions:{continuation:'./lib/claude-continuation.mjs'},modules:['./lib/continuation-extension.mjs','./lib/notifications.mjs','./lib/web-notifications.mjs','./lib/public-link-extension.mjs'],notificationProvider:'./lib/notification-routes.mjs',commands:{monitor:'bin/chill-monitor.mjs'},help:{monitor:{summary:'Optional continuation checks.',detail:'Use chill monitor --help for controls and internal results.'}}}));
+for(const entry of ['chill-monitor','chill-session'])await cp(join(root,`bin/${entry}.mjs`),join(target,`bin/${entry}.mjs`));
+await writeFile(join(target,'extensions.json'),JSON.stringify({agentGuide:'skills/chill-agent/SKILL.md',connectionExtensions:{continuation:'./lib/claude-continuation.mjs'},modules:['./lib/continuation-extension.mjs','./lib/notifications.mjs','./lib/web-notifications.mjs','./lib/public-link-extension.mjs'],notificationProvider:'./lib/notification-routes.mjs',commands:{monitor:'bin/chill-monitor.mjs',session:'bin/chill-session.mjs'},help:{session:{summary:'Selected harness operations and first-use preparation.',detail:'Use chill session --help for the supported harness IDs and interface.'},monitor:{summary:'Optional continuation checks.',detail:'Use chill monitor --help for controls and internal results.'}}}));
 if(process.argv.includes('--test'))await cp(join(root,'test'),join(target,'test'),{recursive:true});
 // Recreate the generated plugin directory so retired plugins cannot ship again.
 await rm(join(root,'dist/codex'),{recursive:true,force:true});

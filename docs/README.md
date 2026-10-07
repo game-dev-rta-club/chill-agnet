@@ -19,6 +19,7 @@ part you want to understand:
 | Open the workspace on your phone or keep a fixed URL | [Public link](using/public-link.md) |
 | Understand why there are two repositories | [Architecture](architecture.md) |
 | Change a skill or inspect a built plugin | [Build and plugin layout](development/build-and-plugins.md) |
+| Extend host-specific setup and operation guidance | [Harness boundaries](development/harness-boundaries.md) |
 | Change action guides or agent handoffs | [Skill and handoffs](development/skill-and-handoffs.md) |
 | Try the shared skill in Claude Code | [Experimental Claude plugin](development/claude-plugin.md) |
 | Qualify continuation in a native Claude conversation | [Experimental Claude Auto mode](development/claude-auto-mode.md) |
