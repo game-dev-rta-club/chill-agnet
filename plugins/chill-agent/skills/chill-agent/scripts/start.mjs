@@ -38,7 +38,7 @@ export async function runtimeDirectory({project=process.cwd(),cacheRoot=join(hom
   }
   if(!await usable(join(stage,'node_modules',pin.name,'dist/runtime')))throw Error('Installed package is missing its built runtime.');
   await writeFile(join(stage,'installed.json'),JSON.stringify(pin));
-  try{await rename(stage,target);}catch(error){if(!['EEXIST','ENOTEMPTY'].includes(error.code))throw error;if(!await usable(runtime))throw Error('Existing installation is incomplete; preserve it and retry after repair.');}
+  try{await rename(stage,target);}catch(error){if(!['EEXIST','ENOTEMPTY','EPERM'].includes(error.code))throw error;if(!await usable(runtime)||JSON.stringify(JSON.parse(await readFile(join(target,'installed.json'),'utf8')))!==JSON.stringify(pin))throw error;}
   return runtime;
  }finally{await rm(stage,{recursive:true,force:true});}
 }
