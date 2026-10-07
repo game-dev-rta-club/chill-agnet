@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import {access,realpath,readFile,writeFile,mkdir,mkdtemp,rename,rm} from 'node:fs/promises';
-import {dirname,join,resolve} from 'node:path';
+import {dirname,join,resolve,delimiter} from 'node:path';
 import {homedir} from 'node:os';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
@@ -28,6 +28,10 @@ export async function runtimeDirectory({project=process.cwd(),cacheRoot=join(hom
   else{
    // npm.cmd needs a shell on Windows; locate npm's JS entry and run it via Node instead.
    const candidates=[process.env.npm_execpath,join(dirname(process.execPath),'node_modules/npm/bin/npm-cli.js'),resolve(dirname(process.execPath),'../lib/node_modules/npm/bin/npm-cli.js')].filter(Boolean);
+   for(const directory of (process.env.PATH||'').split(delimiter)){
+    candidates.push(join(directory,'node_modules/npm/bin/npm-cli.js'));
+    try{const entry=await realpath(join(directory,'npm'));if(entry.endsWith('npm-cli.js'))candidates.push(entry);}catch{}
+   }
    let npm;for(const candidate of candidates){try{await access(candidate);npm=candidate;break;}catch{}}
    if(!npm)throw Error('npm is required alongside Node.js for the first installation.');
    await run(process.execPath,[npm,'install','--no-audit','--no-fund','--no-progress'],{cwd:stage,env:{...process.env,CHILL_BUILD_DEVELOPMENT:'1',CHILL_SKILL_REVISION:pin.spec.split('#')[1]},maxBuffer:8*1024*1024});
