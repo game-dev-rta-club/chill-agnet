@@ -9,8 +9,9 @@ keyPoints: >-
 
 The [core skill](../../plugins/chill-agent/skills/chill-agent/SKILL.md) should help
 an agent advance an agreed outcome while keeping the user's burden low. A valid
-Markdown file cannot establish that behavior. Use a small decision exercise
-alongside the package checks when changing its guidance substantially.
+Markdown file cannot establish that behavior. First make the guidance format and package checks sound. Run a separate
+decision exercise when evaluating behavior; a structural edit does not need to
+launch an agent experiment automatically.
 
 ## Set up an independent reading
 
@@ -53,6 +54,22 @@ overly strong instruction. Avoid adding one rule for every test question.
 Snapshot the revision and use a fresh evaluator for retests and previously
 unseen variations. Check nearby behavior too: a correction that stops premature
 action must still allow work the user has already delegated.
+
+## Compare actual work after the format is ready
+
+Supplement Q&A with small isolated workspaces when measuring tool behavior.
+Keep the initial files, Goal data, user messages and allowed tools identical
+between the saved baseline and candidate. Keep the rubric outside the agent's
+accessible task materials and retain the exact selected model and settings.
+
+Record reads, operations, resulting files and Goal state, questions, completion
+claims and cost. Include interrupted work, later corrections and unanswered
+Letters as well as ordinary success cases. Judge the usable outcome and scope
+adherence, unnecessary questions, premature Done and the relevance of documents
+read. Never use production queues, real recipients or live Goal data for these
+exercises. Keep the cases and raw traces in an evaluation record, then report
+comparisons with their limitations rather than inferring improvement from shorter
+instructions alone.
 
 ## Report what the exercise establishes
 

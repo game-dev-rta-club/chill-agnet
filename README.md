@@ -50,7 +50,7 @@ Load the built `dist/codex/chill-agent` plugin in Codex, then ask:
 
 > Use chill-agent to help me plan and build my project.
 
-The package includes the workspace tools you need. There is no separate CLI to install. [Notifications](docs/using/notifications.md) and phone access are optional; the adjacent `chill-agent-message-setup` plugin helps you set them up. Switch notifications for each project in the Agent menu.
+The package includes the workspace tools you need. There is no separate CLI to install. Set up optional [notifications](docs/using/notifications.md) and [phone access](docs/using/public-link.md) from **More** in the Web. Each browser controls its own notifications.
 
 Next, see [how to work together](docs/using/working-together.md), or find a focused guide in [the documentation](docs/README.md).
 
