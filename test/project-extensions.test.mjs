@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {prepareProject} from '../lib/project-workspace.mjs';
+import {prepareProject,workspacePort} from '../lib/project-workspace.mjs';
 import {registeredExtensions} from '../lib/extension-registry.mjs';
 import {connectionExtensions} from '../lib/connection-extensions.mjs';
 import {notificationProvider} from '../lib/notification-provider.mjs';
@@ -22,4 +22,24 @@ test('project selection restricts Web, native hooks and notification routes inde
  await prepareProject(b,{base,extensions:['web-notifications']});
  assert.deepEqual(registeredExtensions().map(x=>x.id),['web-notifications']);
  await assert.rejects(async()=> (await notificationProvider()).configure('1',{}),/disabled for this project/);
+});
+
+test('Auto mode messages use the isolated project port without a PORT override',async t=>{
+ const {continuationMessage}=await import('../lib/continuation-monitor.mjs');
+ const base=await mkdtemp(join(tmpdir(),'chill-project-message-')),oldDir=process.env.CHILL_AGENT_DATA_DIR,oldPort=process.env.PORT;
+ t.after(async()=>{if(oldDir===undefined)delete process.env.CHILL_AGENT_DATA_DIR;else process.env.CHILL_AGENT_DATA_DIR=oldDir;if(oldPort===undefined)delete process.env.PORT;else process.env.PORT=oldPort;await rm(base,{recursive:true,force:true});});
+ const project=join(base,'project');await mkdir(project);process.env.CHILL_AGENT_DATA_DIR=await prepareProject(project,{base});delete process.env.PORT;
+ const expected=workspacePort();assert.match(continuationMessage({rootId:'1'},1,'attempt'),new RegExp("PORT='"+expected+"'"));
+ process.env.PORT='43199';assert.match(continuationMessage({rootId:'1'},1,'attempt'),/PORT='43199'/);
+});
+
+test('monitor start contacts the project Web without an explicit PORT',async t=>{
+ const {createServer}=await import('node:http');const {execFile}=await import('node:child_process');const {promisify}=await import('node:util');
+ const base=await mkdtemp(join(tmpdir(),'chill-monitor-port-'));t.after(()=>rm(base,{recursive:true,force:true}));
+ const project=join(base,'project');await mkdir(project);const directory=await prepareProject(project,{base});let requested=null;
+ const server=createServer((req,res)=>{requested=req.url;res.setHeader('Content-Type','application/json');res.end('[]');});
+ await new Promise(resolve=>server.listen(workspacePort({CHILL_AGENT_DATA_DIR:directory}),'127.0.0.1',resolve));t.after(()=>new Promise(resolve=>server.close(resolve)));
+ const env={...process.env,CHILL_AGENT_DATA_DIR:directory};delete env.PORT;delete env.CLAUDE_SESSION_ID;delete env.CHILL_AGENT_CLAUDE_SESSION_ID;delete env.CHILL_AGENT_CLAUDE_GENERATION;
+ await assert.rejects(promisify(execFile)(process.execPath,[new URL('../bin/chill-monitor.mjs',import.meta.url).pathname,'start','--id','1'],{env}),e=>e.stderr.includes('does not host the continuation extension'));
+ assert.equal(requested,'/api/goals/1/extensions');
 });
