@@ -7,7 +7,7 @@ keyPoints: >-
 
 # Qualify the SQLite runtime
 
-The development input pins CLI `ff982e8a0f38a42c6e7cfe9287b15c507f94a662`.
+The development input pins CLI `72113ed86e841d01f411b1334e8b98398f63ed0b`.
 Prepare that exact composed artifact using `npm ci` and
 `npm run check:development`. The stable release dependency is unchanged.
 See [cross-repository inputs](two-repositories.md) for the build contract and
@@ -51,7 +51,7 @@ Both phases used the same native session, had no permission denials, and cost
 $0.2047 combined. Web received the expected reply and the feedback completed;
 a fresh reader retained the reply after server shutdown. Auto mode remained Off.
 
-The current default-SQLite build passed all 17 checks on 2026-10-07 with
+The earlier default-SQLite build (CLI `ff982e8a0f38a42c6e7cfe9287b15c507f94a662`) passed all 17 checks on 2026-10-07 with
 Claude Code 2.1.292, the same session across both phases, no permission denials,
 and $0.22454 combined cost. An earlier attempt completed the storage roundtrip
 but failed the conservative route check; its summary did not distinguish help
@@ -67,6 +67,10 @@ hook protocol events without calling a model. It checks one feedback offer,
 working/completed receipts, Web output and persistence, including the absence of
 a parallel JSON schema. `npm run check:development` runs this with the fixed CLI.
 The native probe above separately establishes actual model/tool integration.
+The current composed test also verifies that coordination leases are released
+and no numbered lock JSON files accumulate during the Web/native roundtrip.
+The fixed CLI uses a separate `coordination.sqlite` for short ownership leases;
+no database transaction spans native or network work.
 
 The existing 11 Claude continuation tests also pass with SQLite:
 
