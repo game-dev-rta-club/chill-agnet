@@ -35,14 +35,18 @@ itself. A finished model run is not the same as an achieved Goal.
 
 ## Stay in control
 
+The same header works on your phone and computer. **Goals** opens the project
+list; **Agent** shows the current run. **More** groups AutoContinue, Notifications
+and Public link, with a name and On/Off state beside each icon.
+
 Use the Agent controls to inspect activity and pause or resume supported work.
 The available controls depend on the connected harness and CLI version. Pausing
 work and disabling [AutoContinue](auto-continue.md) serve different purposes:
 one interrupts or holds work, while the other prevents future automatic checks.
 
-For notifications or phone access, use the optional
-[message setup skill](../../plugins/chill-agent-message-setup/skills/chill-agent-message-setup/SKILL.md).
-Each can be enabled independently. Local use needs neither.
+Use **More** to set [notifications](notifications.md) or [phone access](public-link.md).
+Each can be enabled independently; no separate setup skill is needed.
+Local use needs neither.
 
 The [core skill](../../plugins/chill-agent/skills/chill-agent/SKILL.md) guides the
 agent's collaboration. Developers can find exact Goal and Letter behavior in

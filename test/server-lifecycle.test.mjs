@@ -67,6 +67,7 @@ if (process.env.CHILL_TEST_TUNNEL_CRASH) {
   setTimeout(() => process.exit(2), 100);
 } else {
   console.error('https://phone-test.trycloudflare.com');
+  console.error('Registered tunnel connection');
   setInterval(() => {}, 1000);
 }
 `);
@@ -104,7 +105,7 @@ test('tunnel permits its exact origin for activity, images and feedback; idle st
   await assert.rejects(readFile(f.tunnelPath),{code:'ENOENT'});
 });
 
-test('manual shutdown also stops the connector; a connector failure stops the public server', {timeout:8000}, async t => {
+test('manual shutdown also stops the connector; a connector failure keeps local Web available', {timeout:8000}, async t => {
   const f = await tunnelFixture(t,'1h');
   for (let i=0; i<100 && !f.output().includes('Tunnel:'); i++) await delay(20);
   const pid = Number(await readFile(f.pidFile,'utf8'));
@@ -113,8 +114,10 @@ test('manual shutdown also stops the connector; a connector failure stops the pu
   assert.throws(() => process.kill(pid,0),/ESRCH/);
   await assert.rejects(readFile(f.tunnelPath),{code:'ENOENT'});
   const crashed = await tunnelFixture(t,'1h',{CHILL_TEST_TUNNEL_CRASH:'1'});
-  assert.equal((await crashed.exited)[0],1);
-  assert.match(crashed.output(),/Cloudflare tunnel stopped/);
+  await delay(300);
+  assert.equal((await fetch(crashed.url)).status,200);
+  assert.equal((await fetch(crashed.url+'/api/activity',{method:'POST',headers:{Origin:'https://phone-test.trycloudflare.com','Content-Type':'application/json'},body:'{}'})).status,403);
+  crashed.child.kill('SIGTERM');await crashed.exited;
 });
 
 test('configured named tunnel uses Access ingress, accepts only its Origin, and closes with the server', {timeout:10000}, async t => {
@@ -229,8 +232,14 @@ test('idle expiry waits for Codex notification even after the Web save receipt w
   assert.equal((await response.json()).feedback.changeId,1);
   await delay(1000);
   assert.equal(f.child.exitCode,null,'saved feedback is still being delivered');
-  await delay(1200);
-  const delivery = JSON.parse(await readFile(join(f.root,'workspace','deliveries','1.json'),'utf8'));
+  // Observe the durable receipt, rather than assuming process startup and the
+  // delayed fake queue always finish within another fixed 1200 ms under load.
+  const until = Date.now() + 4000;let delivery;
+  do {
+    delivery = JSON.parse(await readFile(join(f.root,'workspace','deliveries','1.json'),'utf8'));
+    if (delivery.status === 'queued') break;
+    await delay(100);
+  } while (Date.now() < until);
   assert.equal(delivery.status,'queued');
   assert.equal(JSON.parse(await readFile(join(f.root,'fake-queue.json'),'utf8')).length,1);
   assert.equal(f.child.exitCode,null,'native queued work also prevents idle shutdown');

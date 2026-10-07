@@ -4,7 +4,7 @@ import {promisify} from 'node:util';
 import assert from 'node:assert/strict';
 import {createMonitorRunner,continuationMessage,configureMonitor,readMonitor,reportMonitorResult} from '../lib/continuation-monitor.mjs';
 import {continuationEligibility,continuationObservation} from '../lib/continuation-observation.mjs';
-import {mkdtemp,rm,writeFile} from 'node:fs/promises';
+import {mkdtemp,rm,writeFile,readFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createGoal,updateGoal,updateBrief,appendFeedback,readFeedback} from '../lib/goal-store.mjs';
@@ -26,12 +26,12 @@ test('idle gets one readable nudge immediately; queue blocks followups',async()=
  assert.ok(x.state.attempts[0].summary);
  x.f.queue=[{messageId:x.sent[0].id}];await x.run();assert.equal(x.sent.length,1);
 });
-test('two nudges per revision across restarts; completed result alone does not prove turn ended',async()=>{
+test('one nudge per revision across restarts; completed result alone does not prove turn ended',async()=>{
  const x=fixture();await x.run();
  x.state.attempts[0].result={outcome:'no-work'};await x.run();assert.equal(x.sent.length,1);
- x.complete();await x.run();assert.equal(x.sent.length,2);assert.match(x.sent[1].text,/Before you stop, take one more look/);
- x.complete();assert.equal((await x.run()).status,'exhausted');assert.equal(x.sent.length,2);
- x.f.revision='r2';await x.run();assert.equal(x.sent.length,3);assert.equal(x.state.history.length,2);
+ x.complete();assert.equal((await x.run()).status,'exhausted');assert.equal(x.sent.length,1);
+ x.advance(10000);assert.equal((await x.run()).status,'exhausted');assert.equal(x.sent.length,1);
+ x.f.revision='r2';await x.run();assert.equal(x.sent.length,2);assert.equal(x.state.history.length,1);
 });
 test('Done and no candidates do not suppress monitoring',async()=>{
  const x=fixture();x.f.rootState='done';x.f.candidates=[];await x.run();assert.equal(x.sent.length,1);
@@ -130,15 +130,23 @@ test('continuation gives a filtered index command and names waiting questions wi
  const text=continuationMessage(f,1,id);
  assert.match(text,/Goal #27: “対象を選んでください”/);
  assert.match(text,/chill goal review --id 1/);
- assert.match(text,/chill goal letter/);
+ assert.match(text,/Workflow:/);assert.match(text,/--section context/);
  assert.doesNotMatch(text,/1\/2|2\/2|配送照合|<!--|長い過去の報告|回答待ち：1件/);
  assert.equal(text.split(id).length-1,1,'identifier only appears in the result command');
- assert.match(continuationMessage(f,2,id),/Before you stop, take one more look/);
- assert.doesNotMatch(continuationMessage(f,2,id),/最後の自動確認|2\/2/);
 });
 
-test('both continuation templates are English while saved Letter titles retain their wording',()=>{
- for(const n of [1,2]) assert.doesNotMatch(continuationMessage(idle(),n,'id'),/[\u3040-\u30ff\u3400-\u9fff]/);
+test('combined continuation template is English while saved Letter titles retain their wording',()=>{
+ assert.doesNotMatch(continuationMessage(idle(),1,'id'),/[\u3040-\u30ff\u3400-\u9fff]/);
+});
+
+test('the combined handoff points to a readable guide shipped in the active runtime',async()=>{
+ const text=continuationMessage(idle(),1,'id');
+ const path=JSON.parse(text.match(/^Workflow: (".*?")\./m)[1]);
+ assert.ok(path.endsWith('/references/auto-mode/continue.md'));
+ const guide=await readFile(path,'utf8');
+ assert.ok(guide.length>0);
+ assert.match(text,/Auto mode is On/);
+ assert.match(text,/In this same pass, check any reason to stop/);
 });
 
 test('nudge describes unfinished Goals, pending Letters, and a settled tree without confusing them',()=>{
@@ -153,4 +161,17 @@ test('nudge describes unfinished Goals, pending Letters, and a settled tree with
  assert.match(done,/Every Goal is marked Done, and no Letters/);assert.match(done,/review --id 1\n/);assert.match(done,/leave the project at rest/);
  for(const text of [unfinished,pending,done])assert.doesNotMatch(text,/read every Goal|whole tree|1\/2|2\/2|latestReport/);
  assert.match(continuationMessage(idle(),1,'id'),/goal tree --id 1/,'older CLI releases get the supported compact tree command');
+});
+
+
+test('continuation anchors to the last work Goal and preserves the observed run when archived',async()=>{
+ const x=fixture();x.f.context={focus:{id:'7',title:'Current outcome'}};
+ await x.run();assert.equal(x.state.attempts[0].goalId,'7');
+ assert.equal(x.state.attempts[0].goalTitle,'Current outcome');
+ x.f.context.focus={id:'8',title:'Next outcome'};x.complete();
+ x.f.pendingWork.turnId='auto-run';x.f.pendingWork.messages=[{text:'Public update'}];
+ x.f.revision='r2';await x.run();
+ assert.equal(x.state.history[0].goalId,'7');assert.equal(x.state.history[0].turnId,'auto-run');
+ assert.deepEqual(x.state.history[0].work.messages,[{text:'Public update'}]);
+ assert.equal(x.state.attempts[0].goalId,'8');
 });
