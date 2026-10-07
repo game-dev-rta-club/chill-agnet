@@ -45,3 +45,5 @@ Follow the CLI's [runtime update guide](https://github.com/game-dev-rta-club/chi
 After upgrading the composed runtime, verify Goals, held feedback and the
 monitor setting and history. Update the loaded skill plugin separately when its
 instructions change; [building alone does not install it](docs/development/build-and-plugins.md).
+
+Agent entry: [read before release](.agents/skills/chill-app-release/SKILL.md).

@@ -36,3 +36,5 @@ differences; changing documentation does not upgrade a running installation.
 
 Public guides are tracked in Git. Older local investigations may be retained in
 an existing checkout, but are not published specifications or shipped features.
+
+For guideline and task-entry maintenance, see [Writing development guidelines](development/guidelines.md).

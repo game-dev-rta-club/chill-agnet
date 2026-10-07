@@ -57,3 +57,6 @@ into `develop` created from remote `main`. Establish the CLI dependency path bef
 calling the app integrated. Audit old branches against actual PRs and active
 worktrees before deleting anything. Follow [Releasing](../../RELEASING.md) for
 stable promotion and distribution; integration authority is not release authority.
+
+Agent entry: [read before development](../../.agents/skills/chill-app-development/SKILL.md).
+When changing this workflow, use [guideline authoring](guidelines.md).
