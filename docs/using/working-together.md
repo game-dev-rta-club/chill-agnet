@@ -39,7 +39,10 @@ The same header works on your phone and computer. **Goals** opens the project
 list; **Agent** shows the current run. **More** groups AutoContinue, Notifications
 and Public link, with a name and On/Off state beside each icon.
 
-Use the Agent controls to inspect activity and pause or resume supported work.
+The Agent panel shows the current work and recent public updates, without a
+list of old runs. Use Pause or Resume beside Activity to control supported work.
+While manually paused, Auto mode sends no new continuation; Resume retains your
+Auto mode preference.
 The available controls depend on the connected harness and CLI version. Pausing
 work and disabling [AutoContinue](auto-continue.md) serve different purposes:
 one interrupts or holds work, while the other prevents future automatic checks.
