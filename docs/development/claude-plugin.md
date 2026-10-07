@@ -26,7 +26,7 @@ The [official plugin layout](https://code.claude.com/docs/en/plugins-reference#s
 keeps the manifest in `.claude-plugin/` and the skill at the plugin root's `skills/`.
 
 Loading the skill does not establish a return path. The shared entry routes Claude
-to [its connection guide](../../plugins/chill-agent/skills/chill-agent/references/workspace/claude-code.md).
+to [its connection guide](../../extensions/harnesses/claude-code.mjs).
 It explicitly prepares native project hooks, preserves the user's permissions and
 other hooks, and distinguishes settings being saved from native activation. A
 SessionStart handoff is needed; if it has not occurred, use the native exit-and-resume

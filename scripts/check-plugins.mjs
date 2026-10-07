@@ -27,3 +27,12 @@ for(const file of ['bin/chill-setup.mjs','bin/chill-server.mjs','extensions.json
 for(const file of ['test','.claude-plugin','.codex-plugin','skills/chill-agent/scripts/runtime'])await assert.rejects(access(join(standalone,'scripts/runtime',file)));
 assert(JSON.parse(await readFile(join(root,'package.json'),'utf8')).files.includes('dist/skills'));
 console.log('Verified self-contained standalone skill and non-recursive runtime.');
+
+// Host-specific routing belongs to adapters, not shared action guidance.
+for(const file of expected.filter(name=>name.endsWith('.md'))){
+ assert(!/\b(?:Codex|Claude|codex-desktop|claude-code)\b/.test(await readFile(join(source,file),'utf8')),`Host branch leaked into shared skill: ${file}`);
+}
+for(const target of ['dist/runtime','dist/codex/chill-agent','dist/claude/chill-agent','dist/skills/chill-agent/scripts/runtime']){
+ for(const file of ['bin/chill-session.mjs','lib/harness-session.mjs','extensions/harnesses/index.mjs','extensions/harnesses/codex-desktop.mjs','extensions/harnesses/claude-code.mjs'])await access(join(root,target,file));
+ assert.equal(JSON.parse(await readFile(join(root,target,'extensions.json'),'utf8')).commands.session,'bin/chill-session.mjs');
+}

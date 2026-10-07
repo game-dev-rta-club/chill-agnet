@@ -1,0 +1,36 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtemp,rm,realpath} from 'node:fs/promises';
+import {join} from 'node:path';
+import {tmpdir} from 'node:os';
+import {harnessGuidance} from '../extensions/harnesses/index.mjs';
+import {startSession} from '../lib/harness-session.mjs';
+test('selected interfaces preserve different receipt and completion semantics',()=>{
+ const a=harnessGuidance('codex-desktop'),b=harnessGuidance('claude-code');
+ assert(a.operations.receipt.states.includes('deferred'));assert(a.operations.selectWork);
+ assert(!b.operations.receipt.states.includes('deferred'));assert.equal(b.operations.selectWork,null);
+ assert.match(b.operations.createRoot.confirmation,/PostToolUse/);
+ a.operations.receipt.states.push('invented');assert(!harnessGuidance('codex-desktop').operations.receipt.states.includes('invented'));
+ assert.throws(()=>harnessGuidance('unknown'),/no fallback/);
+});
+for(const harness of ['codex-desktop','claude-code'])for(const running of [true,false])test(`session prepares ${harness}; existing Web=${running}`,async()=>{
+ const project=await mkdtemp(join(tmpdir(),'chill-session-')),calls=[];
+ try{
+  const result=await startSession({project,harness},{runtime:project,env:{PORT:'4174',CHILL_AGENT_DATA_DIR:'/foreign',KEEP:'yes'},execute:async(node,args,options)=>{
+   calls.push(args);assert.equal(options.cwd,await realpath(project));assert.equal(options.env.PORT,undefined);assert.equal(options.env.KEEP,'yes');
+   if(args[0].endsWith('chill-setup.mjs')){
+    assert.equal(options.env.CHILL_AGENT_DATA_DIR,undefined);
+    if(args[1]==='status')return {stdout:JSON.stringify({idleWatchMs:60000})};
+    assert.deepEqual(args.slice(1),['prepare','--isolated','--project',await realpath(project),'--harness',harness,...(harness==='claude-code'?['--idle-watch-ms','60000']:[])]);
+    return {stdout:JSON.stringify({launcher:'stable',dataDirectory:'/selected',command:'stable-prefix'})};
+   }
+   assert.equal(options.env.CHILL_AGENT_DATA_DIR,'/selected');
+   return {stdout:args[2]==='status'?(running?'Running (PID 10): http://localhost':'Stopped'):'Started'};
+  }});
+  assert.equal(result.connectionVerified,false);assert.equal(result.interface.harnessId,harness);
+  assert.equal(calls.some(args=>args[2]==='start'),!running);
+ }finally{await rm(project,{recursive:true,force:true});}
+});
+test('unknown harness fails before performing setup',async()=>{
+ let calls=0;await assert.rejects(startSession({project:'/absent',harness:'unknown'},{execute:async()=>{calls++;}}),/Unknown harness/);assert.equal(calls,0);
+});
