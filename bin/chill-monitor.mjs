@@ -3,11 +3,26 @@ import {configureMonitor,readMonitor,tickMonitor,reportMonitorResult} from '../l
 import {monitorService} from '../lib/continuation-service.mjs';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {touch as hostTouch} from '@game-dev-rta-club/chill-agent-cli/extension-api';
+import {touch as hostTouch,requestNativeAction} from '@game-dev-rta-club/chill-agent-cli/extension-api';
 const [command,...args]=process.argv.slice(2);
-const usage='Optional continuation checks with durable attempt limits.\nUsage: chill monitor <start|stop|enable|disable|status|tick|watch|result> --id <ROOT>\nOpt-in continuation: at most 2 nudges per user/Goal/Brief revision. The hosted extension checks every 30s, without fixed idle/cooldown delays. start runs monitoring inside the Web server; stop disables only this Root monitor. Web remains available. watch is retired; use start. CLI-only servers may disable extensions with CHILL_AGENT_EXTENSIONS=none. Unknown/paused/queued states never send. enable preserves attempts. disable stops future sends, not a message already queued.\nResult: chill monitor result --id <ROOT> --attempt <UUID> --outcome <worked|no-work>. Saves internal results only; requires the assigned CODEX_THREAD_ID.';
+const usage='Optional continuation checks with durable attempt limits.\nUsage: chill monitor <start|stop|enable|disable|status|tick|watch|result> --id <ROOT>\nOpt-in continuation: at most 1 combined continuation and stopping-review nudge per user/Goal/Brief revision. The hosted extension checks every 30s, without fixed idle/cooldown delays. start runs monitoring inside the Web server; stop disables only this Root monitor. Web remains available. watch is retired; use start. CLI-only servers may disable extensions with CHILL_AGENT_EXTENSIONS=none. Unknown/paused/queued states never send. enable preserves attempts. disable stops future sends, not a message already queued.\nResult: chill monitor result --id <ROOT> --attempt <UUID> --outcome <worked|no-work>. Saves internal results only; requires the assigned Codex thread or experimental native main-hook confirmation.\nExperimental Claude: enable/disable and result use main-hook actions. pause/resume hold only future continuations, not native execution. A verified main Stop drives checking; start/tick/watch are unsupported. Native tool permissions remain unchanged.';
 try{
  if(!command||command==='--help'||args.includes('--help'))console.log(usage);
+ else if(process.env.CHILL_AGENT_HARNESS==='claude-code'){
+  let operation,input;
+  if(command==='result'){
+   if(args.length!==6||args[0]!=='--id'||args[2]!=='--attempt'||args[4]!=='--outcome')throw Error(usage);
+   operation='result';input={rootId:args[1],attemptId:args[3],outcome:args[5]};
+  }else {
+   if(args.length!==2||args[0]!=='--id')throw Error(usage);
+   if(command==='status'){console.log(JSON.stringify(await readMonitor(args[1]),null,2));process.exit(0);}
+   if(['enable','disable'].includes(command)){operation='configure';input={rootId:args[1],enabled:command==='enable'};}
+   else if(['pause','resume'].includes(command)){operation='pause';input={rootId:args[1],paused:command==='pause'};}
+   else throw Error('The experimental Claude adapter uses monitor enable/disable and its main Stop hook; start/tick/watch are not supported. pause/resume hold only future automatic continuations, not native execution.');
+  }
+  const request=await requestNativeAction('extension',{extension:'continuation',operation,input});
+  console.log(request.marker);console.log('Pending native main-hook confirmation. This shell response alone is not confirmation.');
+ }
  else if(command==='result'){
   if(args.length!==6||args[0]!=='--id'||args[2]!=='--attempt'||args[4]!=='--outcome')throw Error(usage);
   console.log(JSON.stringify(await reportMonitorResult(args[1],args[3],args[5]),null,2));

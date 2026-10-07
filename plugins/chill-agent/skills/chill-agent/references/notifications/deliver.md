@@ -1,23 +1,26 @@
 ---
 keyPoints: >-
-  Use fresh saved notification preferences and the agreed host tool. A successful
-  send confirms tool acceptance, not delivery to the user's device.
+  Use the selected saved route once. Web Push can deliver directly; host-tool
+  routes return a message and receipt command. Acceptance does not prove display.
 ---
 
-# Notify through the configured route
+# Deliver a notification
 
 Read `settings notice --help` and retrieve current preferences before sending.
 Use only the agreed route, recipient and occasions. Keep the message short and
 link to the relevant Web result or Letter. Do not turn routine progress into
 repeated interruptions. Local work can continue with notifications disabled.
 
-With the Notifications extension, the Web switch applies to the current Root.
-After saving a Letter or a Comment worth notifying, `settings notice` reserves
+With Web notifications, each browser receives Letters for the current Root;
+Comments never send a Web alert. After saving a Letter, `settings notice` reserves
 that saved event and returns the exact message, tool, destination and result
-command. If enabled, send that message once through the returned tool, then
+command. If the response identifies `delivery: "web-push"`, the extension handled
+the event; do not send it again through a host tool. Otherwise, if enabled,
+send that message once through the returned tool, then
 record `sent`, `failed` or `unconfirmed` using the returned command. A disabled
 response means skip it, including events already prepared or older than the
-current settings. Do not reconstruct or resend an uncertain notification.
+current settings. Host-tool routes keep their explicitly configured occasions.
+Do not reconstruct or resend an uncertain notification.
 
 History keeps the original message and receipt internally; recording its result
 does not need another Conversation post. `sent` means the tool accepted the
@@ -32,6 +35,7 @@ promise immediate delivery or substitute a normal self-DM. Other routes follow
 the method agreed during message setup. Successful API acceptance does not prove
 that the user's device displayed the notification.
 
-If the user wants to configure or change messaging or phone access, use the
-separate `chill-agent-message-setup` skill. Do not silently configure a route
-as part of ordinary Goal work.
+For browser notifications, direct the user to **More → Notifications** in the
+intended browser. Use **More → Public link** for phone access; its guide covers
+access and fixed URLs. Existing host-tool routes remain available through
+`settings --help`. Do not silently change a route as part of ordinary Goal work.

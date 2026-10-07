@@ -1,0 +1,7 @@
+{
+  "name": "chill-agent",
+  "version": "0.2.0",
+  "description": "Shape an agreed goal and review work through chill-agent. Experimental native Claude conversation connection.",
+  "author": {"name": "chill-agent"},
+  "license": "MIT"
+}
