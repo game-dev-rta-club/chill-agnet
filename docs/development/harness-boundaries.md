@@ -51,10 +51,11 @@ ID, setup options and guidance, then register it. Test missing capabilities,
 confirmation boundaries, unknown-host rejection and preservation of the selected
 workspace. No existing common reference or standalone entry needs a host branch.
 Keep user-facing platform instructions in user documentation, separate from the
-shared agent skill. Native integration probes must exercise this interface; old
-probes that assert a removed host-specific Markdown read need updating before
-being used as current acceptance evidence.
+shared agent skill. The [native interface probe](claude-plugin.md#verify-the-selected-runtime-interface)
+checks the selected runtime response and saved native ownership. Older probes
+that assert a removed host-specific Markdown read are historical evidence only.
 
 Current verification covers routing, setup option retention, workspace isolation,
-Web reuse and packaged command availability. It does not newly qualify another
-host or replace native first-use activation testing.
+Web reuse, packaged command availability and a disposable native Claude skill
+invocation through the interface. It does not qualify another host or replace
+interactive first-use approval and long-running reception tests.
