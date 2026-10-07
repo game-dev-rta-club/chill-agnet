@@ -29,7 +29,9 @@ Choose **More → Color theme** to give a project its own appearance. Gradient,
 Light and Dark each offer six hues. Gradient Mint keeps the original look.
 The choice is saved for the whole workspace and used on your other devices when
 they open or return to the page. Other projects keep their own choices.
-Images and authored HTML Briefs retain their original colors.
+Status colors keep their meaning in every palette: Letters, waiting and running
+work are amber; answered Letters and completed Goals are green. Dark themes
+adjust their contrast. Images and authored HTML Briefs retain their original colors.
 
 ## Answer the questions that matter
 
