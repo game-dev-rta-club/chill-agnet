@@ -50,6 +50,31 @@ mode or promises overnight reception. See [native Auto mode](claude-auto-mode.md
 and the [CLI setup contract](https://github.com/game-dev-rta-club/chill-agent-cli/blob/main/docs/agent/claude-setup.md)
 for the current limits.
 
+## Verify the selected runtime interface
+
+Use the application's opt-in probe for the current standalone layout:
+
+```sh
+node scripts/probe-native-interface.mjs --run --skill dist/skills/chill-agent
+```
+
+It installs the complete skill into a disposable project's normal skill folder,
+prepares only that project's native Hooks, and runs Claude with narrow test tool
+permissions, a $0.80 budget and a 180-second limit. `--auth-settings /path/to/settings.json`
+can explicitly reuse environment authentication from native settings in memory;
+it never copies that file or prints credentials. With no such option, explicitly
+provided authentication environment variables are used. Ordinary settings,
+conversations and production workspaces are unchanged; the fixture is removed.
+
+On **2026-10-07, Claude Code 2.1.292**, this passed all 11 checks against app
+`5d7f47a` and its pinned CLI input. The standalone `chill-agent` skill was discovered
+and invoked. A successful Bash result contained the complete selected runtime
+interface, then one Root was bound to that same session and one Comment was
+saved. No Codex work/assignment command was used, Auto mode remained Off and no
+Web server was started. Native cost was $0.0964 with no permission denials.
+This verifies the installed skill and interface routing with prepared Hooks;
+it does not measure interactive cold-start approval UX or long-running reception.
+
 ## Check the packaged entry
 
 `npm run check` verifies that all skill files are identical across source, runtime
