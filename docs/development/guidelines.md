@@ -25,6 +25,10 @@ there for changes to the shared method. Do not create a second copy of that meth
 here. Product-specific guidance and its entries remain usable in this checkout
 without a sibling installation.
 
+For the distributed agent Skill, use [skill and handoffs](skill-and-handoffs.md):
+express the purpose and keep one action's judgment in one selected guide, rather
+than adding a reference for each safeguard.
+
 Validate each skill's frontmatter and relative links, then check that requests to
 fix a bug, merge a PR, release a version and change a development guideline select
 the intended pages. A valid skill file is not proof of native auto-selection:

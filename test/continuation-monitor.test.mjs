@@ -131,8 +131,7 @@ test('continuation gives a filtered index command and names open Letters without
  assert.match(text,/Goal #27: “対象を選んでください”/);
  assert.match(text,/chill goal review --id 1/);
  assert.match(text,/Workflow:/);assert.match(text,/--section context/);
- assert.match(text,/requested result was left only in a Comment/);
- assert.match(text,/without duplicating an existing result Letter/);
+ assert.match(text,/Review both the usable outcome and how the user will receive it/);
  assert.match(text,/Open Letters for the user’s attention/);
  assert.doesNotMatch(text,/Waiting for your user’s answer/);
  assert.doesNotMatch(text,/1\/2|2\/2|配送照合|<!--|長い過去の報告|回答待ち：1件/);

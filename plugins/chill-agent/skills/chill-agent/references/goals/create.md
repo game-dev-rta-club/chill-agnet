@@ -21,8 +21,8 @@ when it does; create a child only for a meaningful contributing outcome that
 benefits from its own discussion or independent progress. Small tasks can stay
 in your working plan.
 
-Use the [connection interface](../workspace/connect.md) for Root creation and
-its confirmation requirements. Children and ordinary updates use the shared
+Use the verified connection interface for Root creation and its confirmation
+requirements. Establish a missing connection before attempting that operation. Children and ordinary updates use the shared
 `goal create --help` or `goal update --help`. Put the destination in the
 title, observable success in the criteria, and the work currently agreed in the
 scope. Keep the developing explanation in the Brief and share the proposal or
