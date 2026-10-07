@@ -35,9 +35,11 @@ itself. A finished model run is not the same as an achieved Goal.
 
 ## Stay in control
 
-The same header works on your phone and computer. **Goals** opens the project
-list; **Agent** shows the current run. **More** groups AutoContinue, Notifications
-and Public link, with a name and On/Off state beside each icon.
+The same header works on your phone and computer. **Agent** shows the current
+run. **Letters**, beside Agent, opens unanswered Letters for the current Root
+and its children. Its envelope is muted at zero and highlighted with a count
+when Letters are waiting. On the Goals index it includes all Roots.
+**More** contains **Goals** navigation, AutoContinue, Notifications and Public link.
 
 The Agent panel shows the current work and recent public updates, without a
 list of old runs. Use Pause or Resume beside Activity to control supported work.
