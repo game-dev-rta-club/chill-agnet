@@ -21,7 +21,9 @@ public release that still needs permission.
 
 Use `goal letter --help`. Give it a short decision title and explain what the
 choice changes, your recommendation, and what you can advance before an answer.
-Separate the part that must wait from independent work; do not imply that
+Use [Continue while a choice is pending](../work/continue-with-pending-choice.md)
+to identify the specific action that needs the answer and advance what can be
+produced or checked with a reversible provisional choice. Do not imply that
 silence permits an action requiring approval. Ordinary information and usable
 outcomes belong in Comments; follow
 [reporting](../comments/report.md).
@@ -29,4 +31,4 @@ outcomes belong in Comments; follow
 Save the Letter in the Web so it remains available whenever the user returns.
 Chat-only question tools do not save it; use those only when the user explicitly
 asks to answer there. Handle any configured notification through
-[delivery](../notifications/deliver.md), then continue independent agreed work.
+[delivery](../notifications/deliver.md), then carry out the next authorized step.

@@ -24,9 +24,11 @@ A reversible draft or focused check may move the outcome forward without that
 answer. Apply what you find now; do not wait for a second nudge or finish with
 only a list of possible work.
 
-Unread results and unanswered Letters do not block unrelated work. Keep a
-genuine dependency limited to the decision it affects, reuse its existing
-Letter, and leave the resumption condition clear. If the agreed outcome really
+Unread results do not require acknowledgement. For unanswered Letters, use
+[Continue while a choice is pending](../work/continue-with-pending-choice.md):
+check whether the same deliverable can advance with a reversible provisional
+choice before treating its whole branch as blocked. Keep genuine dependencies
+limited to the actions they affect and reuse the existing Letter. If the agreed outcome really
 is achieved, share the useful result without requiring acknowledgement. Do not
 invent work outside that agreement or a question merely to keep it open.
 
