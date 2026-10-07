@@ -54,6 +54,9 @@ The package includes the workspace tools you need. There is no separate CLI to i
 
 Next, see [how to work together](docs/using/working-together.md), or find a focused guide in [the documentation](docs/README.md).
 
+For the experimental Claude Code connection, see [setup](docs/development/claude-plugin.md)
+and [receiving Web feedback](docs/using/claude-code.md).
+
 ## Building your own workflow?
 
 Use [chill-agent-cli](https://github.com/game-dev-rta-club/chill-agent-cli) if you want the workspace and agent connection with your own scheduling or orchestration. Its repository owns the CLI reference and extension documentation.

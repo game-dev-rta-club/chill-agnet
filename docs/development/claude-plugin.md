@@ -30,6 +30,9 @@ SessionStart handoff is needed; if it has not occurred, use the native exit-and-
 flow for that same chat after reviewing the hooks. Do not replace a running chat
 with a second process or transfer another Root's context.
 
+For everyday reception, resume and Saved recovery, read
+[Use Web with Claude Code](../using/claude-code.md).
+
 ## Use the operations supported by this connection
 
 Claude creates a new Root through `connection create-goal`. Each connection action

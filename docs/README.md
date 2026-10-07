@@ -12,6 +12,7 @@ part you want to understand:
 | You want to… | Read |
 | --- | --- |
 | Agree on work, leave feedback and review the result | [Work together](using/working-together.md) |
+| Receive Web feedback in an existing Claude conversation | [Use Web with Claude Code](using/claude-code.md) |
 | Let the agent check for work it can continue | [AutoContinue](using/auto-continue.md) |
 | Hear when results or decisions need your attention | [Notifications](using/notifications.md) |
 | Open the workspace on your phone or keep a fixed URL | [Public link](using/public-link.md) |
