@@ -23,6 +23,14 @@ older versions and the discussion remain available.
 You can also change direction from the agent chat. Ask it to keep the Web
 explanation current so you do not have to reconstruct the chat later.
 
+## Tell projects apart
+
+Choose **More → Color theme** to give a project its own appearance. Gradient,
+Light and Dark each offer six hues. Gradient Mint keeps the original look.
+The choice is saved for the whole workspace and used on your other devices when
+they open or return to the page. Other projects keep their own choices.
+Images and authored HTML Briefs retain their original colors.
+
 ## Answer the questions that matter
 
 A Letter is a question that needs your decision. Reply to the Letter when you
@@ -39,7 +47,7 @@ The same header works on your phone and computer. **Agent** shows the current
 run. **Letters**, beside Agent, opens unanswered Letters for the current Root
 and its children. Its envelope is muted at zero and highlighted with a count
 when Letters are waiting. On the Goals index it includes all Roots.
-**More** contains **Goals** navigation, AutoContinue, Notifications and Public link.
+**More** contains **Goals** navigation, Color theme, AutoContinue, Notifications and Public link.
 
 The Agent panel shows the current status and a link to the work Goal, without
 message bodies or a list of old runs. When the exact work Goal is unavailable,
