@@ -11,7 +11,9 @@ Use the shared [development workflow](https://github.com/game-dev-rta-club/chill
 In sibling checkouts, read `chill-agent-cli/docs/development/workflow.md`.
 The agreed model is topic → PR → `develop`, with the entrusted agent responsible
 for review, checks, merge and branch cleanup. Routine merges into `develop` do
-not wait for the user. `main` is the stable line and release promotion is separate.
+not wait for the user. `main` is the stable line. Version bumps, promotion and publication affecting
+users require consultation with the user before execution; develop integration
+authority does not include them.
 
 This repository owns skills, extensions and product guidance. Core data, Web
 hosting and harness contracts belong to the CLI. Commit each verified milestone;

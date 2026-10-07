@@ -24,6 +24,9 @@ the CLI release. Keep dependency adoption separate from documentation-only edits
 
 ## Publish an archive
 
+Consult the user before changing versions, promoting to main or publishing.
+Autonomous develop work does not authorize changes distributed to users.
+
 1. Open a release PR updating `package.json`, the lockfile and `CHANGELOG.md`.
 2. Run `npm ci`, `npm run check` and `npm pack`. Install the archive into a clean
    temporary project and verify setup, the Web workspace and the continuation
