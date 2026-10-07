@@ -22,6 +22,7 @@ part you want to understand:
 | Qualify continuation in a native Claude conversation | [Experimental Claude Auto mode](development/claude-auto-mode.md) |
 | Check whether skill guidance leads to useful decisions | [Evaluate the skill](development/evaluating-the-skill.md) |
 | Test a change across both repositories | [Develop across repositories](development/two-repositories.md) |
+| Choose branches, commit milestones and prepare a PR | [Development workflow](development/workflow.md) |
 | Publish an update | [Releasing](../RELEASING.md) |
 
 For command formats, Goal storage, runtime updates or the extension API, use the
