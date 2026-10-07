@@ -38,21 +38,21 @@ exiting and resuming the **same conversation** after Hook review. The agent will
 say when this is necessary; copying files alone cannot establish that connection.
 See [Claude reception](claude-code.md) for its finite idle-watch limitation.
 
-## Obtain a development build
+## Obtain the release
 
-A standalone-skill release archive has not yet been published. For now a
-maintainer builds the folder from a fixed, reviewed checkout with Node.js 24:
+Download **chill-agent-skill-0.3.0.tgz** from [release v0.3.0](https://github.com/game-dev-rta-club/chill-agnet/releases/tag/v0.3.0).
+Extract it and install the complete `chill-agent/` folder using the locations
+above. It contains the bundled runtime; no build or setup script is required
+from the user. The separate `game-dev-rta-club-chill-agent-0.3.0.tgz` asset is the
+npm-installable application archive, including the same standalone skill and
+compatibility plugin outputs. This is a GitHub archive distribution, not an npm
+registry package.
 
-```sh
-npm ci
-npm run check:development
-```
-
-The resulting `dist/skills/chill-agent` is the installable artifact. A GitHub
-skill installer pointed at the source `plugins/` folder is **not** equivalent.
-Building and copying this development artifact does not promote it to a stable
-release. Existing plugin artifacts remain available for compatibility.
-See [build layout](../development/build-and-plugins.md).
+For a fixed development checkout, maintainers can run `npm ci` and
+`npm run check:development` with Node.js 24 to build `dist/skills/chill-agent`.
+A GitHub skill installer pointed at the source `plugins/` folder is **not**
+equivalent: it does not include the runtime. Existing plugin artifacts remain
+available for compatibility. See [build layout](../development/build-and-plugins.md).
 
 Official host references: [Codex skills](https://learn.chatgpt.com/docs/build-skills)
 and [Claude Code skills](https://code.claude.com/docs/en/skills).

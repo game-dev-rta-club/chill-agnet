@@ -1,6 +1,6 @@
 ---
 name: chill-app-release
-description: Use when preparing or executing a stable main promotion, version bump, release tag or distribution of chill-agent. Not routine topic PR integration into develop.
+description: Use when preparing or executing a stable main promotion, version classification, version bump, release tag or distribution of chill-agent. Not routine topic PR integration into develop.
 ---
 
 # Read before release

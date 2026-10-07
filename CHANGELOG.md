@@ -6,6 +6,16 @@ keyPoints: >-
 
 # Changelog
 
+## 0.3.0
+
+- Minor feature release in the 0.x line, adopting CLI 0.3.0. Existing workspace data and plugin paths remain supported; existing shared stores are not automatically migrated.
+- Ship one complete standalone skill for normal Codex/Claude installation and invocation, with bundled runtime preparation and isolated project Web setup.
+- Separate shared skill decisions from harness-specific runtime guidance and native connection enforcement.
+- Add Web notification/public-link controls, QR links, project color themes and current Activity controls. Notifications are Letter-only; each device registers independently.
+- Improve autonomous continuation guidance and make one follow-up include both continuation and stopping review.
+- Retain experimental Claude limits: native Hook activation and a running same-session Claude are required; finite reception is not a background service or an overnight guarantee. Automatic Web startup is qualified on macOS with Node.js 24.
+- Publish a standalone skill archive alongside the npm-installable application archive, and verify release metadata before publishing.
+
 ## 0.2.0
 
 - Add optional Root-level Notifications with retained connections, setup requests and exact-message history.
