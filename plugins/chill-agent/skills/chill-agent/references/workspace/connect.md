@@ -37,7 +37,8 @@ node '<skill-directory>/scripts/start.mjs' --project '<project-directory>' --har
 Use `--harness claude-code` inside Claude Code. This bundled helper prepares a
 project-isolated runtime, hooks and data store and starts its local Web. It
 reuses the project's store and chooses its port automatically. It does not
-create a Root, turn on Auto mode, publish a URL, or grant native permissions.
+create a Root, turn on Auto mode, enable public access, or grant native
+permissions. Previously saved public-access settings remain in effect.
 No separate CLI installation or user-run setup script is required. A missing
 runtime means an incomplete installation; request the complete built skill,
 not an arbitrary download or another harness.
