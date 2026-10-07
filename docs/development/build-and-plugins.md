@@ -79,3 +79,6 @@ activation is still required. See [installation](../using/install.md). Runtime
 copying is one-way, so the embedded runtime does not recursively contain the
 standalone artifact. Existing plugin and immutable-runtime skill layouts use
 the same starter with the runtime at their package root.
+
+For the opt-in database build and isolated Web/native checks, see
+[SQLite qualification](sqlite-qualification.md).
