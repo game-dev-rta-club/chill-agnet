@@ -40,9 +40,11 @@ The fixed development input is now recorded in `development-cli.json` and built
 by `npm run cli:development`; `npm run check:development` prepares it and checks
 the app. See [the archive workflow](two-repositories.md) for exact commands.
 Remote preparation requires that commit to be available in the official CLI
-repository. Adoption into develop CI is still pending; current CI continues to
-check the stable package dependency. Until that gate is connected and green, a
-CLI-dependent app PR remains Draft. Do not publish a release merely to bypass it.
+repository. Development CI uses this input for non-main branch pushes and PRs targeting
+develop. Main-targeted PRs, main pushes and tags use only the recorded stable
+release dependency. Both macOS and Windows build with the selected input. A
+CLI-dependent app PR remains Draft until that gate is green. Do not publish a
+release merely to bypass it.
 
 This separates frequent development integration from public release cadence.
 A local `--no-save` archive test remains useful evidence, but does not by itself

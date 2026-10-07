@@ -74,8 +74,8 @@ npm run check
 This still exports the configured commit, ignoring dirty files, untracked files
 and the checkout's current HEAD. It does not use the sibling's node_modules.
 Local success does not prove the commit is fetchable from GitHub. Push and
-integrate the CLI input first, then adopt the same remote command in develop CI;
-keep stable main checks on the released archive. Do not change the SHA to a branch
+integrate the CLI input first. Development CI runs the same remote preparation
+command; stable main checks use only the released archive. Do not change the SHA to a branch
 name or silently fall back to a different package after a fetch/build failure.
 
 ## Adopt and document the change
