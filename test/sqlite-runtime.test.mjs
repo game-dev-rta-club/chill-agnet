@@ -2,9 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
 import {once} from 'node:events';
-import {mkdtemp,mkdir,writeFile,rm,access} from 'node:fs/promises';
+import {mkdtemp,mkdir,writeFile,rm,access,readdir} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
+import {DatabaseSync} from 'node:sqlite';
 import {randomUUID} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {captureClaudeEntry} from '../lib/claude-entry.mjs';
@@ -42,5 +43,9 @@ test('composed SQLite runtime carries Web feedback through native hook receipts 
  server.kill();await exit;
  assert.ok((await readFeedback(goal.id)).some(e=>e.text==='SQLite result saved'));
  await access(join(data,'workspace/workspace.sqlite'));
+ const coordination=new DatabaseSync(join(data,'workspace/coordination.sqlite'));
+ try{assert.equal(coordination.prepare('SELECT count(*) AS n FROM leases').get().n,0,'all roundtrip leases released');}finally{coordination.close();}
+ const files=await readdir(join(data,'workspace'),{recursive:true});
+ assert.equal(files.some(path=>/(^|[\\/])locks[\\/].*\.json$/.test(path)),false,'no numbered lock files');
  await assert.rejects(access(join(data,'workspace/schema.json')),{code:'ENOENT'});
 });
