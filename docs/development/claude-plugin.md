@@ -7,6 +7,9 @@ keyPoints: >-
 
 # Try the skill in Claude Code
 
+For ordinary use, [install the standalone skill](../using/install.md) and invoke
+`/chill-agent`. The instructions below retain the plugin route for compatibility.
+
 Build this repository, then load `dist/claude/chill-agent` with Claude Code's
 native development plugin option. This is a development artifact, not a published
 marketplace release:

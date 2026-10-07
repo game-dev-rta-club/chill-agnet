@@ -13,6 +13,7 @@ itself.
 
 | Source | Generated output | Purpose |
 | --- | --- | --- |
+| Shared skill + composed runtime | `dist/skills/chill-agent/` | Standalone skill; runtime nested under `scripts/runtime/` |
 | Installed CLI + `lib/` + `extensions/` + monitor entry | `dist/runtime/` | Web, CLI and optional extensions in one runtime |
 | `plugins/chill-agent/` + composed runtime | `dist/codex/chill-agent/` | Codex skill with its runtime |
 | Shared skill + native manifest + composed runtime | `dist/claude/chill-agent/` | Experimental Claude plugin; hooks need explicit setup |
@@ -71,3 +72,10 @@ does not replace an already running Web server.
 
 Implementation: [build script](../../scripts/build.mjs),
 [development entry](../../bin/chill.mjs), [package manifest](../../package.json).
+
+The standalone skill is the preferred user entry. Its bundled starter selects
+an isolated project and starts Web when invoked by the agent; native Hook
+activation is still required. See [installation](../using/install.md). Runtime
+copying is one-way, so the embedded runtime does not recursively contain the
+standalone artifact. Existing plugin and immutable-runtime skill layouts use
+the same starter with the runtime at their package root.

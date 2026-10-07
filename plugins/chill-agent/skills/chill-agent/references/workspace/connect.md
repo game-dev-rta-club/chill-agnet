@@ -1,30 +1,55 @@
 ---
 keyPoints: >-
-  Connect through the calling harness and reuse its stable runtime prefix. Claude
-  needs its explicit native setup and main-hook actions; Codex remains the default.
+  On first skill invocation the agent prepares an isolated project and starts Web
+  with the bundled starter. Reuse established connections; native hook approval
+  and Claude SessionStart are separate from installing files.
 ---
 
-# Connect the current conversation
+# Connect this conversation
 
-Use this when starting chill-agent or repairing its entry. Keep the conversation
-and context in the harness the user is already using. A project directory or
-saved Goal does not authorize handing its work to a different conversation.
+Keep the calling harness and its conversation/context. A project directory or
+Goal ID is not authority to hand work to a different conversation.
 
-Reuse the exact stable CLI prefix from setup or incoming feedback. With no known
-prefix, resolve the installed plugin root two directories above this Skill's
-folder, then read `node '<plugin-root>/bin/chill-setup.mjs' --help`. Inspect
-existing settings and server status before preparing again.
+## Reuse an established connection
 
-Inside **Claude Code**, read [Use the native Claude connection](claude-code.md)
-before setup, Root creation or feedback receipts. Its experimental main-hook
-route differs from Codex's Queue and execution tracking.
+When working from incoming chill feedback or an already verified connection,
+reuse its exact stable CLI prefix, data directory and port. Read its current
+context; do not run first-use setup against the current shell directory, migrate
+its Goals or replace its runtime just because a newer skill is installed.
+For an explicit new-project request, use that project's directory instead.
 
-Inside **Codex Desktop**, use the default setup route from installed help and
-the [CLI guide](use-cli.md). A new or changed Codex hook may require the user's
-native `/hooks` review; never treat a successful settings write as that review.
-Other harnesses need a verified connection; a missing path is not a reason to
-launch Codex or Claude as a replacement for the current conversation.
+## First use after installing the skill
 
-Start or reuse the local Web server with its installed help when needed. Server
-startup, public access and external notifications are separate choices. Preserve
-existing ports, data directories and remote-access settings.
+The user installs the complete skill folder and invokes chill-agent. Do the
+preparation yourself; do not give them a list of setup commands to execute.
+Identify the calling harness and its actual project directory, not the skill
+installation folder. If either is unavailable, ask only for that missing fact.
+For Claude, read [the native connection guide](claude-code.md) first, including
+how to identify its native project/settings directory.
+
+Resolve `scripts/start.mjs` relative to this installed skill's directory and run
+it with the available Node.js 24 executable:
+
+```sh
+node '<skill-directory>/scripts/start.mjs' --project '<project-directory>' --harness codex-desktop
+```
+
+Use `--harness claude-code` inside Claude Code. This bundled helper prepares a
+project-isolated runtime, hooks and data store and starts its local Web. It
+reuses the project's store and chooses its port automatically. It does not
+create a Root, turn on Auto mode, publish a URL, or grant native permissions.
+No separate CLI installation or user-run setup script is required. A missing
+runtime means an incomplete installation; request the complete built skill,
+not an arbitrary download or another harness.
+
+Keep the returned stable `command` prefix for later CLI actions. Setup output
+and a running Web are not proof that feedback can reach this conversation.
+Codex may require native `/hooks` review/trust; explain just that necessary
+step. For Claude, verify the main-tool identity handoff as the native guide
+requires; when SessionStart is missing, explain exit and resume of this same
+conversation. Never clear, fork, fabricate identity or approve trust on behalf
+of the user. Report what is ready and what still needs native activation.
+
+After connection verification, follow [Create a Goal](../goals/create.md) and
+[Use the CLI](use-cli.md). Open the returned local Web URL once a useful Goal
+exists. Preserve established public links, ports, settings and other queues.

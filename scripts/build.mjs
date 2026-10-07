@@ -50,4 +50,10 @@ await cp(join(root,'plugins/claude-code/.claude-plugin'),join(claudePlugin,'.cla
 const claudeMetadata=join(claudePlugin,'.claude-plugin/plugin.json');
 const claudeManifest=JSON.parse(await readFile(claudeMetadata,'utf8'));
 claudeManifest.version=version;await writeFile(claudeMetadata,JSON.stringify(claudeManifest,null,2)+'\n');
-console.log('Built CLI + optional continuation policy, Codex plugin and experimental Claude plugin');
+// A normal skill installation is self-contained; no plugin loader is required.
+await rm(join(root,'dist/skills'),{recursive:true,force:true});
+const standalone=join(root,'dist/skills/chill-agent');
+await cp(join(root,'plugins/chill-agent/skills/chill-agent'),standalone,{recursive:true});
+await cp(target,join(standalone,'scripts/runtime'),{recursive:true});
+await rm(join(standalone,'scripts/runtime/test'),{recursive:true,force:true});
+console.log('Built standalone skill, CLI + optional continuation policy, Codex plugin and experimental Claude plugin');

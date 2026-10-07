@@ -9,9 +9,9 @@ keyPoints: >-
 
 Use this inside Claude Code. The experimental connection keeps the user's work
 in this main conversation. Reuse its prepared command prefix and data directory.
-When none is known, read the plugin's setup help and explicitly select
-`setup prepare --harness claude-code --project <native-project-directory>`.
-The default setup targets Codex. Claude's local settings may live at the main Git
+When none is known, use the bundled first-use starter from
+[Connect this conversation](connect.md) with `--harness claude-code`.
+Never use the Codex default for this route. Claude's local settings may live at the main Git
 repository root, so identify the directory Claude uses before writing them.
 
 Setup adds only its own recorded project hooks. It preserves native permissions,

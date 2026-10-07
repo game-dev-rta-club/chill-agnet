@@ -21,3 +21,9 @@ for(const file of ['hooks/hooks.json','.codex-plugin/plugin.json','test'])await 
 for(const file of ['bin/chill-setup.mjs','bin/chill-connection.mjs','lib/claude-setup.mjs','lib/claude-continuation.mjs','extensions.json'])await access(join(native,file));
 assert(JSON.parse(await readFile(join(root,'package.json'),'utf8')).files.includes('dist/claude'));
 console.log(`Verified identical ${expected.length}-file skills in runtime and both plugins, isolated metadata and explicit hook setup.`);
+const standalone=join(root,'dist/skills/chill-agent');
+for(const file of expected)assert.deepEqual(await readFile(join(standalone,file)),await readFile(join(source,file)),`standalone/${file}`);
+for(const file of ['bin/chill-setup.mjs','bin/chill-server.mjs','extensions.json','skills/chill-agent/SKILL.md','public/themes.css'])await access(join(standalone,'scripts/runtime',file));
+for(const file of ['test','.claude-plugin','.codex-plugin','skills/chill-agent/scripts/runtime'])await assert.rejects(access(join(standalone,'scripts/runtime',file)));
+assert(JSON.parse(await readFile(join(root,'package.json'),'utf8')).files.includes('dist/skills'));
+console.log('Verified self-contained standalone skill and non-recursive runtime.');
