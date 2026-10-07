@@ -1,22 +1,23 @@
 ---
 keyPoints: >-
   Develop pins the SQLite-capable CLI and qualifies an isolated native Web roundtrip.
-  SQLite remains opt-in; ordinary installations and production data are unchanged.
+  New development workspaces use SQLite by default; installed runtimes and production data are unchanged.
   Explicit resume reception is tested separately from unattended idle operation.
 ---
 
 # Qualify the SQLite runtime
 
-The development input pins CLI `8240ec7b887c460bfa6f489617222a9d16773a88`.
+The development input pins CLI `ff982e8a0f38a42c6e7cfe9287b15c507f94a662`.
 Prepare that exact composed artifact using `npm ci` and
 `npm run check:development`. The stable release dependency is unchanged.
 See [cross-repository inputs](two-repositories.md) for the build contract and
 [SQLite storage](https://github.com/game-dev-rta-club/chill-agent-cli/blob/develop/docs/runtime/sqlite.md)
 for data ownership, query boundaries and migration stages.
 
-For a disposable data directory, `CHILL_AGENT_STORAGE=sqlite` selects SQLite;
-existing database directories detect it on reopening. This is still an opt-in
-development path, not a production migration or a default-install change.
+New data directories select SQLite without a storage variable, and existing
+database directories detect it on reopening. Node.js 24.15 or newer is required.
+Existing schema-marked JSON workspaces stay JSON until explicitly migrated;
+the stable release dependency and installed runtimes are unchanged.
 Never point a rehearsal at the original legacy data directory.
 
 ## Run the native Web roundtrip
@@ -44,10 +45,20 @@ resume is a test stimulus; this does not establish unattended idle reception,
 interactive first-use approval UX, production cutover or old-data migration.
 The fixture, its sessions and temporary settings are removed afterward.
 
-On 2026-10-07, Claude Code 2.1.292 passed all 17 checks with the pinned CLI.
+On 2026-10-07, Claude Code 2.1.292 passed all 17 checks with the earlier CLI
+`8240ec7b887c460bfa6f489617222a9d16773a88` using explicit SQLite selection.
 Both phases used the same native session, had no permission denials, and cost
 $0.2047 combined. Web received the expected reply and the feedback completed;
 a fresh reader retained the reply after server shutdown. Auto mode remained Off.
+
+The current default-SQLite build passed all 17 checks on 2026-10-07 with
+Claude Code 2.1.292, the same session across both phases, no permission denials,
+and $0.22454 combined cost. An earlier attempt completed the storage roundtrip
+but failed the conservative route check; its summary did not distinguish help
+from mutation attempts. The probe now identifies only simple prepared-launcher
+help calls separately, with regression tests; compound commands remain checked.
+The successful rerun contained no `goal create`, `goal assign` or `goal work`
+calls, so its route result does not depend on that help exemption.
 
 ## Keep the contract under test
 
@@ -60,10 +71,20 @@ The native probe above separately establishes actual model/tool integration.
 The existing 11 Claude continuation tests also pass with SQLite:
 
 ```sh
-CHILL_AGENT_STORAGE=sqlite node --test dist/runtime/test/claude-continuation.test.mjs
+node --test dist/runtime/test/claude-continuation.test.mjs
 ```
 
 Storage-qualified delivery is not migration evidence. Before switching an old
 installation, inventory its transport/extension files, import a copy preserving
 IDs and receipts, prevent replay during validation, and test recovery. No running
 user workspace is updated by these build or qualification commands.
+
+## Rehearse migration with the composed artifact
+
+The runtime includes `bin/chill-migrate.mjs` and its SQLite implementation.
+Use its `create`, `verify`, `restore`, `verify-restored`, `prepare` and
+`verify-prepared` commands against disposable copies. Follow the CLI
+[migration guide](https://github.com/game-dev-rta-club/chill-agent-cli/blob/develop/docs/runtime/sqlite-migration.md).
+`prepare` creates a pending data directory; its marker blocks normal startup
+until activation reconciles historical bindings and unresolved transport state.
+It does not reconnect old sessions or activate archived queues.
