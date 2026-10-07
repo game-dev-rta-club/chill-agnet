@@ -48,10 +48,11 @@ either public repository. Do not publish a dependency on a personal file path.
 
 ## Adopt and document the change
 
-Merge and release the CLI change first when the main package needs a new host
-capability. Then update the exact archive URL and lockfile in a main-package PR,
-test the combination and follow [Releasing](../../RELEASING.md). Documentation
-alone does not change that pin.
+Merge the CLI change into develop first when the app needs a new host capability.
+For app develop, use a reproducible exact CLI input as defined in the
+[integration workflow](workflow.md). Before stable main promotion, adopt the exact
+released archive URL and lockfile, test the combination and follow
+[Releasing](../../RELEASING.md). Documentation alone does not change that pin.
 
 CLI behavior belongs in the
 [CLI guides](https://github.com/game-dev-rta-club/chill-agent-cli/blob/main/docs/README.md).

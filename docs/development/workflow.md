@@ -1,41 +1,59 @@
 ---
 keyPoints: >-
-  Follow the shared branch and milestone-commit workflow, test the composed archive,
-  and keep dependent changes in Draft until the required CLI release is pinned.
+  The entrusted agent merges checked topic PRs into develop and keeps main stable.
+  Integrate CLI changes first, then verify the app against an exact reproducible
+  CLI artifact; local package overrides alone never make an app PR mergeable.
 ---
 
-# Develop the complete experience
+# Integrate the complete experience
 
-Use the shared [branch, commit and review workflow](https://github.com/game-dev-rta-club/chill-agent-cli/blob/main/docs/development/workflow.md).
-In a sibling checkout its source is `chill-agent-cli/docs/development/workflow.md`.
-The important handoff is a tested, committed change with any remaining work
-explicitly recorded. Commit each useful milestone before moving to another
-concern; keep a focused, short-lived branch for each change.
+Use the shared [development workflow](https://github.com/game-dev-rta-club/chill-agent-cli/blob/main/docs/development/workflow.md).
+In sibling checkouts, read `chill-agent-cli/docs/development/workflow.md`.
+The agreed model is topic → PR → `develop`, with the entrusted agent responsible
+for review, checks, merge and branch cleanup. Routine merges into `develop` do
+not wait for the user. `main` is the stable line and release promotion is separate.
 
 This repository owns skills, extensions and product guidance. Core data, Web
-hosting and harness contracts belong to the CLI. Use
-[two-repository development](two-repositories.md) to test the actual CLI archive
-rather than a source symlink. Keep the CLI commit and archive hash in the PR's
-verification notes so someone else can reproduce the integration.
+hosting and harness contracts belong to the CLI. Commit each verified milestone;
+integrate a complete slice before opening another dependent topic. Use
+[two-repository development](two-repositories.md) for archive-based local tests.
 
-## A change that needs a new CLI capability
+## Integrate a new CLI capability
 
-1. Implement and verify the CLI change on its own branch.
-2. Pack it and install the archive here with `--no-save --package-lock=false`.
-3. Run the composed `npm run check` and isolated integration scenarios.
-4. Keep the app PR in Draft until a reviewed CLI release is available.
-5. Adopt that exact release URL and lockfile, then verify a clean `npm ci` and
-   `npm run check` before marking the PR Ready.
+1. Merge and verify the CLI PR in its `develop` branch first.
+2. Make the exact CLI revision reproducible in the app. Prefer an immutable
+   development package when development artifact publication is configured and
+   authorized. Alternatively add a versioned development input (full CLI commit
+   SHA) and a shared script used by both local checks and CI to fetch that revision,
+   run `npm ci`, build, pack and install its archive before composed checks.
+3. Adopt that input in the app PR, including the lockfile when it is a package
+   dependency. CI must use the same input; a moving `develop` URL is not a pin.
+4. Verify a fresh checkout through the documented development command, composed
+   tests and relevant integration scenarios. Merge into app `develop` and verify
+   post-merge CI, then clean up the topic branch.
+5. Before promotion to `main`, pin the exact stable CLI release archive and lockfile
+   and verify ordinary `npm ci` plus `npm run check`, with no development override.
 
-Local archive success is useful development evidence. It does not mean the
-committed public dependency can build that branch. Record that difference;
-do not publish a tag while relying on an unrecorded local package replacement.
-The CLI release and app release are separate steps in [Releasing](../../RELEASING.md).
+The development-input script/artifact pipeline above is an adoption requirement,
+not implemented by this document. Current CI uses the committed release dependency.
+Until a reproducible development input or compatible release is adopted, a
+CLI-dependent app PR remains Draft. Do not merge a knowingly broken branch or
+publish a release simply to get around that gate. Record the blocker and prioritize
+establishing this dependency path over accumulating more app feature branches.
 
-## Before handing work back
+This separates frequent development integration from public release cadence.
+A local `--no-save` archive test remains useful evidence, but does not by itself
+satisfy the integration gate. Do not commit a personal filesystem path.
 
-Inspect `git status --short` and commit completed source, tests and documentation
-in their owning repository. Report both branches/commits for a cross-repository
-change. Describe any intentionally unfinished files and which CLI revision was
-tested. Run the [build and plugin checks](build-and-plugins.md); generated
-`dist/` and installed personal runtime snapshots are not source commits.
+## Record integration, not only implementation
+
+Report both repository commits, the tested CLI input, PR merge results and any
+remaining blocker. Keep [build and plugin checks](build-and-plugins.md) as the
+verification entry point. Generated `dist/` and installed runtime snapshots are
+not source commits. A merge does not restart a user's Web server or Claude session.
+
+For initial adoption, preserve the current accumulated topic as a bootstrap PR
+into `develop` created from remote `main`. Establish the CLI dependency path before
+calling the app integrated. Audit old branches against actual PRs and active
+worktrees before deleting anything. Follow [Releasing](../../RELEASING.md) for
+stable promotion and distribution; integration authority is not release authority.
