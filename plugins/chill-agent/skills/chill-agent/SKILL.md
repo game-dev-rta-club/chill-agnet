@@ -31,7 +31,9 @@ new evidence changes what is achievable or worthwhile, explain it and recommend
 a direction. Describing a possible outcome does not authorize its implementation.
 
 Use a Letter when an important choice needs the user's judgment. Design it so
-independent work can continue while they are away. Silence is not authorization;
+work can continue while they are away, including the same deliverable with a
+reversible provisional choice. An unanswered Letter is not a pause on the Goal.
+Silence is not authorization;
 prepare a concrete, reviewable result before asking when that preparation is
 already authorized.
 
@@ -70,6 +72,7 @@ in this work; this is a set of entry points, not a sequence to run every time.
 | Update, split or regroup existing Goals | [Reorganize Goals](references/goals/reorganize.md) |
 | Check whether an outcome is achieved | [Complete a Goal](references/goals/complete.md) |
 | Decide whether and how to ask the user | [Ask through a Letter](references/letters/ask.md) |
+| Advance work while a choice is unanswered | [Continue while a choice is pending](references/work/continue-with-pending-choice.md) |
 | Interpret a reply and continue | [Respond to a Letter](references/letters/respond.md) |
 | Keep the current explanation useful | [Update the Brief](references/briefs/update.md) |
 | Share an ordinary reply or result | [Report in Conversation](references/comments/report.md) |

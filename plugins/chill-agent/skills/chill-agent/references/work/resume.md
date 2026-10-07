@@ -22,7 +22,9 @@ all histories. An older CLI can use `show` and `tree` from its help.
 
 Use the [calling harness CLI route](../workspace/use-cli.md) when selecting work
 or recording receipts. Select the Goal you will advance. Use existing agreement and evidence to decide
-what comes next; waiting on one branch need not stop another. Reopen a Done Goal
+what comes next. If an unanswered choice appears to block work, use
+[Continue while a choice is pending](continue-with-pending-choice.md) to check
+what can advance within the same deliverable as well as other branches. Reopen a Done Goal
 only for actual remaining or newly agreed work. Preserve other Goals' queues
 and manual pauses.
 
