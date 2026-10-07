@@ -37,8 +37,10 @@ test('monitor start contacts the project Web without an explicit PORT',async t=>
  const {createServer}=await import('node:http');const {execFile}=await import('node:child_process');const {promisify}=await import('node:util');
  const base=await mkdtemp(join(tmpdir(),'chill-monitor-port-'));t.after(()=>rm(base,{recursive:true,force:true}));
  const project=join(base,'project');await mkdir(project);const directory=await prepareProject(project,{base});let requested=null;
- const server=createServer((req,res)=>{requested=req.url;res.setHeader('Content-Type','application/json');res.end('[]');});
+ const token='project-instance-test';
+ const server=createServer((req,res)=>{res.setHeader('Content-Type','application/json');if(req.url==='/api/workspace-instance'){res.end(JSON.stringify({token:req.headers['x-chill-instance']===token?token:null}));return;}requested=req.url;res.end('[]');});
  await new Promise(resolve=>server.listen(workspacePort({CHILL_AGENT_DATA_DIR:directory}),'127.0.0.1',resolve));t.after(()=>new Promise(resolve=>server.close(resolve)));
+ const {writeJsonAtomically}=await import('../lib/storage.mjs');await writeJsonAtomically(join(directory,'runtime','endpoint.json'),{port:server.address().port,token});
  const env={...process.env,CHILL_AGENT_DATA_DIR:directory};delete env.PORT;delete env.CLAUDE_SESSION_ID;delete env.CHILL_AGENT_CLAUDE_SESSION_ID;delete env.CHILL_AGENT_CLAUDE_GENERATION;
  await assert.rejects(promisify(execFile)(process.execPath,[new URL('../bin/chill-monitor.mjs',import.meta.url).pathname,'start','--id','1'],{env}),e=>e.stderr.includes('does not host the continuation extension'));
  assert.equal(requested,'/api/goals/1/extensions');

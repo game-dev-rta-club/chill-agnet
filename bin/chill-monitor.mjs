@@ -3,7 +3,7 @@ import {configureMonitor,readMonitor,tickMonitor,reportMonitorResult} from '../l
 import {monitorService} from '../lib/continuation-service.mjs';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {touch as hostTouch,requestNativeAction,workspacePort} from '@game-dev-rta-club/chill-agent-cli/extension-api';
+import {touch as hostTouch,requestNativeAction,workspacePort,resolveWorkspacePort} from '@game-dev-rta-club/chill-agent-cli/extension-api';
 const [command,...args]=process.argv.slice(2);
 const usage='Optional continuation checks with durable attempt limits.\nUsage: chill monitor <start|stop|enable|disable|status|tick|watch|result> --id <ROOT>\nOpt-in continuation: at most 1 combined continuation and stopping-review nudge per user/Goal/Brief revision. The hosted extension checks every 30s, without fixed idle/cooldown delays. start runs monitoring inside the Web server; stop disables only this Root monitor. Web remains available. watch is retired; use start. CLI-only servers may disable extensions with CHILL_AGENT_EXTENSIONS=none. Unknown/paused/queued states never send. enable preserves attempts. disable stops future sends, not a message already queued.\nResult: chill monitor result --id <ROOT> --attempt <UUID> --outcome <worked|no-work>. Saves internal results only; requires the assigned Codex thread or experimental native main-hook confirmation.\nExperimental Claude: enable/disable and result use main-hook actions. pause/resume hold only future continuations, not native execution. A verified main Stop drives checking; start/tick/watch are unsupported. Native tool permissions remain unchanged.';
 try{
@@ -31,6 +31,7 @@ try{
   if(args.length!==2||args[0]!=='--id'||! /^[1-9][0-9]*$/.test(args[1])||!['start','stop','enable','disable','status','tick','watch'].includes(command))throw Error(usage);
   const id=args[1];
   if(command==='start'){
+   await resolveWorkspacePort();
    const url=()=>`http://127.0.0.1:${workspacePort()}/api/goals/${id}/extensions`;
    let response;try{response=await fetch(url(),{signal:AbortSignal.timeout(2000)});}catch{
     await promisify(execFile)(process.execPath,[new URL('./chill-server.mjs',import.meta.url).pathname,'start']);
