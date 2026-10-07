@@ -193,7 +193,7 @@ test('opening the page, interaction and CLI mutations renew the idle deadline; C
   await f.run(['check','--id','1']);
   assert.equal(await lastServerUse(f.root, 0), uses.at(-1));
   assert.equal((await f.exited)[0], 0);
-  assert.equal(JSON.parse(await readFile(join(f.root,'workspace','events','1.json'),'utf8')).text, 'Still working');
+  assert.equal(JSON.parse((await f.run(['show','--id','1'])).stdout).conversation.find(event=>event.id===1).text, 'Still working');
 });
 
 test('idle expiry waits for an in-flight save, then allows the new idle period', {timeout:8000}, async t => {

@@ -15,7 +15,7 @@ import {readDeliveryState} from '../lib/delivery.mjs';
 test('composed SQLite runtime carries Web feedback through native hook receipts and persists the reply',async t=>{
  const dir=await mkdtemp(join(tmpdir(),'chill-sqlite-runtime-')),cwd=join(dir,'project'),data=join(dir,'data');await mkdir(cwd);
  const previous={CHILL_AGENT_DATA_DIR:process.env.CHILL_AGENT_DATA_DIR,CHILL_AGENT_STORAGE:process.env.CHILL_AGENT_STORAGE};
- Object.assign(process.env,{CHILL_AGENT_DATA_DIR:data,CHILL_AGENT_STORAGE:'sqlite'});
+ process.env.CHILL_AGENT_DATA_DIR=data;delete process.env.CHILL_AGENT_STORAGE;
  let server,exit;
  t.after(async()=>{if(server){if(server.exitCode===null&&server.signalCode===null)server.kill();await exit;}for(const [k,v] of Object.entries(previous)){if(v===undefined)delete process.env[k];else process.env[k]=v;}await rm(dir,{recursive:true,force:true});});
  const envFile=join(dir,'env');await writeFile(envFile,'');

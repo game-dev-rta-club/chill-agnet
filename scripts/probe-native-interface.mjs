@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // Opt-in native standalone-skill exercise. Only disposable settings, conversation and Goals.
+import {probeCommand} from './native-probe-command.mjs';
 import {spawn,execFile} from 'node:child_process';
 import {mkdtemp,mkdir,readFile,readdir,rm,cp} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -15,9 +16,8 @@ const skill=join(cwd,'.claude/skills/chill-agent'),plugin=join(skill,'scripts/ru
 const report={checkedAt:new Date().toISOString(),scope:'Standalone skill discovery and selected runtime interface routing in a disposable print-mode conversation; not a production install, cold-start permission UX or indefinite idle test.'};
 const env={};for(const k of ['PATH','HOME','TMPDIR','USER','LOGNAME','SHELL','LANG','LC_ALL',...(values['auth-settings']?[]:authNames)])if(process.env[k]!==undefined)env[k]=process.env[k];
 Object.assign(env,{CLAUDE_CONFIG_DIR:config,CHILL_AGENT_DATA_DIR:data,CHILL_AGENT_CODEX_PATH:'/never/call/codex',CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC:'1',CLAUDE_CODE_DISABLE_OFFICIAL_MARKETPLACE_AUTOINSTALL:'1'});
-if(values['sqlite-web'])env.CHILL_AGENT_STORAGE='sqlite';
 const execute=promisify(execFile),calls=[],results=[],reads=[],skills=[],discovered=[],readEvidence=[],toolNames=new Set(),toolsById=new Map(),guideBodies=[];let server,child,timer,phase='prepare',stream='',stderrBytes=0,exit;
-const safeCommand=command=>({usesPreparedLauncher:typeof command==='string'&&command.includes(join(data,'runtime/chill.mjs')),action:['connection create-goal','goal create','goal assign','goal work','goal comment','connection show','setup prepare','server start'].find(a=>command?.includes(a))||null});
+const safeCommand=command=>probeCommand(command,join(data,'runtime/chill.mjs'));
 try{
  const auth=values['auth-settings']?await probeAuthSettings(values['auth-settings']):null;if(auth)Object.assign(env,auth.env);
  await mkdir(cwd);await mkdir(config);await mkdir(join(cwd,'.claude/skills'),{recursive:true});await cp(artifact,skill,{recursive:true});
@@ -60,7 +60,7 @@ try{
  const goals=await readRecords(),goal=goals[0],ids=goals.map(g=>g.id),feedback=goals.flatMap(g=>g.conversation);
  let continuation=false;try{continuation=JSON.parse(await readFile(join(data,'workspace/continuation',`${goal.id}.json`),'utf8')).enabled===true;}catch{}
  report.goal={title:goal.title,scope:goal.scope,criteria:goal.criteria};report.comments=feedback.filter(e=>e.author==='agent'&&e.type==='comment').map(e=>e.text);
- report.checks={skillDiscovered:discovered.includes('chill-agent'),skillInvoked:skills.includes('chill-agent'),selectedInterfaceRead:readEvidence.some(e=>e.path==='runtime-interface:claude-code'&&e.confirmed),oneRoot:ids.length===1&&!goal.parentId,agreedCriterion:typeof goal.criteria==='string'&&goal.criteria.trim().length>10,nativeOwnership:goal.connection?.harnessId==='claude-code'&&goal.connection.sessionId===results[0]?.session_id&&goal.threadId===null,oneSavedComment:feedback.filter(e=>e.author==='agent'&&e.goalId===goal.id&&e.type==='comment').length===1,noCodexActions:!calls.some(c=>['goal assign','goal work','goal create'].includes(c.action)),autoRemainsOff:!continuation,noServerStarted:!calls.some(c=>c.action==='server start'),nativeSuccess:exit.code===0&&results.length===1&&!results[0].is_error};
+ report.checks={skillDiscovered:discovered.includes('chill-agent'),skillInvoked:skills.includes('chill-agent'),selectedInterfaceRead:readEvidence.some(e=>e.path==='runtime-interface:claude-code'&&e.confirmed),oneRoot:ids.length===1&&!goal.parentId,agreedCriterion:typeof goal.criteria==='string'&&goal.criteria.trim().length>10,nativeOwnership:goal.connection?.harnessId==='claude-code'&&goal.connection.sessionId===results[0]?.session_id&&goal.threadId===null,oneSavedComment:feedback.filter(e=>e.author==='agent'&&e.goalId===goal.id&&e.type==='comment').length===1,noCodexActions:!calls.some(c=>['goal assign','goal work','goal create'].includes(c.action)&&!c.helpOnly),autoRemainsOff:!continuation,noServerStarted:!calls.some(c=>c.action==='server start'),nativeSuccess:exit.code===0&&results.length===1&&!results[0].is_error};
  if(values['sqlite-web']){
   phase='web';
   const {once}=await import('node:events');
