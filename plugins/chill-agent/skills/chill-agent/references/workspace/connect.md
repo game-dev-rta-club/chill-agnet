@@ -49,6 +49,6 @@ their behalf. An installed file or a running Web is not proof of connection.
 
 Do not give the user a setup command list. An incomplete installation needs the
 complete built skill, not a different harness or an arbitrary runtime download.
-After connection verification, follow [Create a Goal](../goals/create.md) and
-[Use the CLI](use-cli.md), and open the local Web once a useful Goal exists.
+After connection verification, creating a useful Goal is the next action; open
+the local Web once it exists.
 Preserve existing public-access settings, queues and manual pauses.

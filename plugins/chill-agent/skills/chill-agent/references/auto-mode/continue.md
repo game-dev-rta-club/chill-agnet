@@ -1,45 +1,44 @@
 ---
 keyPoints: >-
-  In one Auto-mode follow-up, compare the agreed outcome with actual results,
-  review any reason to stop, and carry out the next useful action without
-  waiting for user acknowledgement or a second nudge.
+  Move the agreed outcome forward and make sure the user can receive the result.
+  One continuation pass owns both the next useful action and the decision to stop.
 ---
 
 # Continue autonomously
 
-Use this for an Auto-mode follow-up. On delegates choosing and executing the
-next useful action toward the agreed goal while the user is away. It does not
-expand the agreement or override a later Off setting or manual pause.
+The purpose of Auto mode is useful progress while the user is away. In this
+same pass, compare the original desired change with actual results, choose the
+next useful action, and carry it through. The user need not acknowledge work
+or send a second nudge. Stay within the agreement and respect Off or a manual pause.
 
-Start with the supplied index and a relevant Goal's current context. Compare
-the user's original desired change with actual artifacts and verification
-evidence. Read the Brief, parent outcome or linked discussion where it can
-change that decision. Goal counts, Done labels and the previous report are
-observations, not proof that the outcome is achieved.
+Start with the supplied index and a relevant Goal's current context. Read the
+Brief or discussion where it changes your understanding. Counts, Done labels
+and the previous report are clues, not evidence that the destination is reached.
+If you would stop, consider what remains between the agreed outcome and the
+usable result, rather than finding more tasks merely to stay busy.
 
-Choose a useful action and carry it through. If you would stop, examine that
-judgment in this same pass: has a Goal narrowed to a task, does a completion
-claim lack evidence, or is independent work hidden behind an unanswered choice?
-A reversible draft or focused check may move the outcome forward without that
-answer. Apply what you find now; do not wait for a second nudge or finish with
-only a list of possible work.
+An unanswered choice may affect only final placement or another reversible
+detail. Advance the same deliverable with an appropriate provisional artifact
+when authorized, not just unrelated work. Record the assumption, location and
+verification so a later answer can reshape it. Keep a real permission dependency
+or explicit wait limited to the action it affects; silence supplies no consent.
 
-Unread results do not require acknowledgement. For unanswered Letters, use
-[Continue while a choice is pending](../work/continue-with-pending-choice.md):
-check whether the same deliverable can advance with a reversible provisional
-choice before treating its whole branch as blocked. Keep genuine dependencies
-limited to the actions they affect and reuse the existing Letter. If the agreed outcome really
-is achieved, share the useful result without requiring acknowledgement. Do not
-invent work outside that agreement or a question merely to keep it open.
+Progress includes delivering what the user asked to receive. Before ending,
+check recent Conversation, including answered or closed Letters. If a requested
+result exists only in a Comment or chat, send one concise Letter with its useful
+conclusion, artifact or detail link, and limits. Follow an explicit channel
+preference instead when one exists. An existing result Letter is enough; unread
+status, closure or notifications Off do not justify another. Do not sweep every
+old Comment into a new Letter or turn routine progress into interruptions.
 
-Use the [calling harness CLI route](../workspace/use-cli.md) to select work and
-record receipts. Select the Goal you advance and correct its explanation or completion state
-if it misrepresents the agreement. Preserve other Goals' queues and manual
-pauses. Save actual results with the usual Brief and Comment workflow; use a
-Letter for a choice needing the user. Reporting and continuing can coexist.
+Use the supplied interface to select work and save results. After a Letter,
+`settings notice --id <goal> --event <event>` handles the configured notification:
+a handled or web-push result needs no extra send; otherwise follow the returned
+route and receipt once when enabled. Do not retry an uncertain send or change
+preferences. A Letter does not require a reply before authorized work continues.
+An investigation-only outcome does not authorize its suggested implementation.
 
-Return the exact supplied monitor result command with `worked` if you advanced
-work or left a necessary Letter, otherwise `no-work`. A no-work check gets no
-Web Comment, Letter or Brief update. Report a failed result command accurately;
-a Web no-work post is not a substitute. The runtime owns future scheduling and
-delivery; do not create another loop to compensate.
+Return the supplied monitor receipt as `worked` for actual progress, including
+a recovered result Letter. If the outcome is delivered and nothing agreed can
+advance, use `no-work` without another Web report. Report a failed receipt
+accurately; the runtime owns future scheduling. Preserve other queues and pauses.

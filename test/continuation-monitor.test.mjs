@@ -124,13 +124,16 @@ test('real store: content revisions and internal results stay separate from Web 
  }finally{if(old===undefined)delete process.env.CHILL_AGENT_DATA_DIR;else process.env.CHILL_AGENT_DATA_DIR=old;await rm(dir,{recursive:true,force:true});}
 });
 
-test('continuation gives a filtered index command and names waiting questions without counters or report dumps',()=>{
+test('continuation gives a filtered index command and names open Letters without counters or report dumps',()=>{
  const id='00000000-0000-0000-0000-000000000123';
  const f={...idle(),context:{goals:{total:3,unfinished:2,waiting:0},latestReport:'長い過去の報告',letters:[{goalId:'27',title:'対象を選んでください'}]}};
  const text=continuationMessage(f,1,id);
  assert.match(text,/Goal #27: “対象を選んでください”/);
  assert.match(text,/chill goal review --id 1/);
  assert.match(text,/Workflow:/);assert.match(text,/--section context/);
+ assert.match(text,/Review both the usable outcome and how the user will receive it/);
+ assert.match(text,/Open Letters for the user’s attention/);
+ assert.doesNotMatch(text,/Waiting for your user’s answer/);
  assert.doesNotMatch(text,/1\/2|2\/2|配送照合|<!--|長い過去の報告|回答待ち：1件/);
  assert.equal(text.split(id).length-1,1,'identifier only appears in the result command');
 });
@@ -156,7 +159,7 @@ test('nudge describes unfinished Goals, pending Letters, and a settled tree with
  assert.match(unfinished,/review --id 1 --state unfinished/);
  assert.doesNotMatch(unfinished,/Every Goal is marked Done/);
  const pending=message({total:5,unfinished:0,waiting:0},[{goalId:'4',title:'Approve the result?'}]);
- assert.match(pending,/Every Goal is marked Done, but/);assert.match(pending,/review --id 1 --letters/);assert.match(pending,/Approve the result/);
+ assert.match(pending,/Every Goal is marked Done, with Letters still open/);assert.match(pending,/review --id 1 --letters/);assert.match(pending,/Approve the result/);
  const done=message({total:5,unfinished:0,waiting:0});
  assert.match(done,/Every Goal is marked Done, and no Letters/);assert.match(done,/review --id 1\n/);assert.match(done,/leave the project at rest/);
  for(const text of [unfinished,pending,done])assert.doesNotMatch(text,/read every Goal|whole tree|1\/2|2\/2|latestReport/);
