@@ -58,6 +58,8 @@ message-setup skill. Once Web notifications are chosen for a Root, turning its
 last device Off does not fall back to an external profile. The standalone CLI
 has no Web Push policy; chill-agent's extensions supply it.
 
-Outcome Letters created with `goal letter --no-reply` use this same delivery
-path. They are labelled “No reply needed” and do not increase unanswered Letter
-counts. Reading or commenting on a result is optional and does not gate work.
+Letters have one presentation and Answer action. Ordinary outcomes are saved as
+Comments and remain silent under the Letter-only notification preference.
+Historical no-reply Letters retain their original pending-count behavior, but
+are no longer presented as a separate kind of message. Reading a result does
+not gate the next agreed action.

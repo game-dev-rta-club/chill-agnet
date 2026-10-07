@@ -22,8 +22,8 @@ public release that still needs permission.
 Use `goal letter --help`. Give it a short decision title and explain what the
 choice changes, your recommendation, and what you can advance before an answer.
 Separate the part that must wait from independent work; do not imply that
-silence permits an action requiring approval. Ordinary information belongs in a Comment. A usable outcome to deliver while
-the user is away can be a `goal letter --no-reply` notice; follow
+silence permits an action requiring approval. Ordinary information and usable
+outcomes belong in Comments; follow
 [reporting](../comments/report.md).
 
 Save the Letter in the Web so it remains available whenever the user returns.
