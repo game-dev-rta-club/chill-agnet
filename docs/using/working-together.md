@@ -41,8 +41,10 @@ and its children. Its envelope is muted at zero and highlighted with a count
 when Letters are waiting. On the Goals index it includes all Roots.
 **More** contains **Goals** navigation, AutoContinue, Notifications and Public link.
 
-The Agent panel shows the current work and recent public updates, without a
-list of old runs. Use Pause or Resume beside Activity to control supported work.
+The Agent panel shows the current status and a link to the work Goal, without
+message bodies or a list of old runs. When the exact work Goal is unavailable,
+the link is labelled Root Goal. Use Pause or Resume beside Activity to control
+supported work.
 While manually paused, Auto mode sends no new continuation; Resume retains your
 Auto mode preference.
 The available controls depend on the connected harness and CLI version. Pausing
