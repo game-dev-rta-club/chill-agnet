@@ -20,11 +20,12 @@
     "dist/codex",
     "dist/claude",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "dist/skills"
   ],
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node --test scripts/prepare-development-cli.test.mjs && npm run build -- --test && node scripts/check-plugins.mjs && node --test dist/runtime/test/*.test.mjs",
+    "check": "node --test scripts/prepare-development-cli.test.mjs scripts/standalone-skill.test.mjs && npm run build -- --test && node scripts/check-plugins.mjs && node --test dist/runtime/test/*.test.mjs",
     "prepack": "npm run build",
     "cli:development": "node scripts/prepare-development-cli.mjs",
     "check:development": "npm run cli:development && npm run check"
