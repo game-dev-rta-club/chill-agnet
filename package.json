@@ -1,6 +1,6 @@
 {
   "name": "@game-dev-rta-club/chill-agent",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "description": "Leave the work to your agent. A shared Goal workspace with optional continuation.",
   "license": "MIT",
@@ -18,15 +18,22 @@
     "bin/chill.mjs",
     "dist/runtime",
     "dist/codex",
+    "dist/claude",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "dist/skills"
   ],
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "npm run build -- --test && node --test dist/runtime/test/*.test.mjs",
-    "prepack": "npm run build"
+    "check": "node --test scripts/prepare-development-cli.test.mjs scripts/standalone-skill.test.mjs && npm run build -- --test && node scripts/check-plugins.mjs && node --test dist/runtime/test/*.test.mjs",
+    "prepack": "npm run build",
+    "cli:development": "node scripts/prepare-development-cli.mjs",
+    "check:development": "npm run cli:development && npm run check",
+    "release:check": "node scripts/check-release.mjs"
   },
   "dependencies": {
-    "@game-dev-rta-club/chill-agent-cli": "https://github.com/game-dev-rta-club/chill-agent-cli/releases/download/v0.2.0/game-dev-rta-club-chill-agent-cli-0.2.0.tgz"
+    "@game-dev-rta-club/chill-agent-cli": "https://github.com/game-dev-rta-club/chill-agent-cli/releases/download/v0.3.0/game-dev-rta-club-chill-agent-cli-0.3.0.tgz",
+    "qrcode": "1.5.4",
+    "web-push": "3.6.7"
   }
 }

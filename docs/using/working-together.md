@@ -23,6 +23,16 @@ older versions and the discussion remain available.
 You can also change direction from the agent chat. Ask it to keep the Web
 explanation current so you do not have to reconstruct the chat later.
 
+## Tell projects apart
+
+Choose **More → Color theme** to give a project its own appearance. Gradient,
+Light and Dark each offer six hues. Gradient Mint keeps the original look.
+The choice is saved for the whole workspace and used on your other devices when
+they open or return to the page. Other projects keep their own choices.
+Status colors keep their meaning in every palette: Letters, waiting and running
+work are amber; answered Letters and completed Goals are green. Dark themes
+adjust their contrast. Images and authored HTML Briefs retain their original colors.
+
 ## Answer the questions that matter
 
 A Letter is a question that needs your decision. Reply to the Letter when you
@@ -35,14 +45,25 @@ itself. A finished model run is not the same as an achieved Goal.
 
 ## Stay in control
 
-Use the Agent controls to inspect activity and pause or resume supported work.
+The same header works on your phone and computer. **Agent** shows the current
+run. **Letters**, beside Agent, opens unanswered Letters for the current Root
+and its children. Its envelope is muted at zero and highlighted with a count
+when Letters are waiting. On the Goals index it includes all Roots.
+**More** contains **Goals** navigation, Color theme, AutoContinue, Notifications and Public link.
+
+The Agent panel shows the current status and a link to the work Goal, without
+message bodies or a list of old runs. When the exact work Goal is unavailable,
+the link is labelled Root Goal. Use Pause or Resume beside Activity to control
+supported work.
+While manually paused, Auto mode sends no new continuation; Resume retains your
+Auto mode preference.
 The available controls depend on the connected harness and CLI version. Pausing
 work and disabling [AutoContinue](auto-continue.md) serve different purposes:
 one interrupts or holds work, while the other prevents future automatic checks.
 
-For notifications or phone access, use the optional
-[message setup skill](../../plugins/chill-agent-message-setup/skills/chill-agent-message-setup/SKILL.md).
-Each can be enabled independently. Local use needs neither.
+Use **More** to set [notifications](notifications.md) or [phone access](public-link.md).
+Each can be enabled independently; no separate setup skill is needed.
+Local use needs neither.
 
 The [core skill](../../plugins/chill-agent/skills/chill-agent/SKILL.md) guides the
 agent's collaboration. Developers can find exact Goal and Letter behavior in

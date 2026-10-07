@@ -1,7 +1,7 @@
 ---
 keyPoints: >-
   Agree on an outcome and return to one workspace for plans, feedback and decisions.
-  Start with the complete Codex plugin; AutoContinue and notifications are optional.
+  Start with the complete skill; AutoContinue and notifications are optional.
 ---
 
 <p align="center"><img src="assets/overview.svg" alt="chill-agent: agree on a goal, let the agent work, review the result" width="100%" /></p>
@@ -30,29 +30,26 @@ Want help keeping things moving? Turn on [AutoContinue](docs/using/auto-continue
 
 ## Get started
 
-You will need **Codex Desktop on macOS, Node.js 24, and Git**. Setup currently uses the terminal:
+Install the complete `chill-agent` skill folder in your usual skill location,
+then invoke **chill-agent** in the project you want to work on. The agent prepares
+that project's workspace and opens its Web page; there is no separate setup
+command for you to run.
 
-```sh
-git clone https://github.com/game-dev-rta-club/chill-agnet.git
-cd chill-agnet
-npm ci
-npm run build
-node bin/chill.mjs setup prepare --project /path/to/your/project
-```
+The same folder works in **Codex Desktop** and **Claude Code (experimental connection)** on macOS.
+Node.js 24 is required. See
+[Install the skill](docs/using/install.md) for locations and how to obtain the
+built folder. Initial native Hook approval may still be required; Claude may
+also need to resume the same conversation to activate its connection. The agent
+explains only the remaining native step.
 
-Replace `/path/to/your/project` with the folder you want to work in. Setup prints a stable command; use it to start the Web workspace:
-
-```sh
-<command> server start --configured
-```
-
-Load the built `dist/codex/chill-agent` plugin in Codex, then ask:
-
-> Use chill-agent to help me plan and build my project.
-
-The package includes the workspace tools you need. There is no separate CLI to install. [Notifications](docs/using/notifications.md) and phone access are optional; the adjacent `chill-agent-message-setup` plugin helps you set them up. Switch notifications for each project in the Agent menu.
+Optional [notifications](docs/using/notifications.md),
+[phone access](docs/using/public-link.md) and color themes live in the Web's
+**More** menu. Installation does not enable them.
 
 Next, see [how to work together](docs/using/working-together.md), or find a focused guide in [the documentation](docs/README.md).
+
+For the experimental Claude Code connection, see [setup](docs/development/claude-plugin.md)
+and [receiving Web feedback](docs/using/claude-code.md).
 
 ## Building your own workflow?
 
