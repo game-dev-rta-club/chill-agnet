@@ -24,9 +24,9 @@ choice changes, your recommendation, and what you can advance before an answer.
 Use [Continue while a choice is pending](../work/continue-with-pending-choice.md)
 to identify the specific action that needs the answer and advance what can be
 produced or checked with a reversible provisional choice. Do not imply that
-silence permits an action requiring approval. Ordinary information and usable
-outcomes belong in Comments; follow
-[reporting](../comments/report.md).
+silence permits an action requiring approval. For a result that needs attention
+but no decision, follow [Report a result](../comments/report.md); do not invent
+a question to justify its Letter.
 
 Save the Letter in the Web so it remains available whenever the user returns.
 Chat-only question tools do not save it; use those only when the user explicitly

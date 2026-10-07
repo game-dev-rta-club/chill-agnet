@@ -58,7 +58,10 @@ use their supported compact tree command.
 The request states that Auto mode is On and links directly to the packaged
 `references/auto-mode/continue.md`. The agent compares the original outcome
 with actual results, then checks any reason to stop in the same pass and acts
-on remaining entrusted work. There is no second request to repeat that review.
+on remaining entrusted work. It also checks whether a requested result was left
+only in a Comment. A missing result Letter is delivered once, without duplicating
+previous Letters or requiring acknowledgement. There is no second request to
+repeat that review.
 It opens a relevant Goal through the compact context view, then follows Brief
 and question links as needed. User acknowledgement is not a condition for
 continuing. The request does not expand the agreement or override a later

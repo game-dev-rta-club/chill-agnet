@@ -29,14 +29,19 @@ Unread results do not require acknowledgement. For unanswered Letters, use
 check whether the same deliverable can advance with a reversible provisional
 choice before treating its whole branch as blocked. Keep genuine dependencies
 limited to the actions they affect and reuse the existing Letter. If the agreed outcome really
-is achieved, share the useful result without requiring acknowledgement. Do not
+is achieved, deliver the useful result without requiring acknowledgement. Do not
 invent work outside that agreement or a question merely to keep it open.
+
+Before ending this pass, use [Review result delivery](../comments/review-delivery.md)
+to catch a requested outcome left only in a Comment. Inspect prior Letters to
+avoid duplicates. Recovering that handoff is useful work even when no further
+implementation is authorized.
 
 Use the [calling harness CLI route](../workspace/use-cli.md) to select work and
 record receipts. Select the Goal you advance and correct its explanation or completion state
 if it misrepresents the agreement. Preserve other Goals' queues and manual
-pauses. Save actual results with the usual Brief and Comment workflow; use a
-Letter for a choice needing the user. Reporting and continuing can coexist.
+pauses. Save actual results with the Brief and [reporting workflow](../comments/report.md);
+Letters carry requested outcomes as well as choices needing the user. Reporting and continuing can coexist.
 
 Return the exact supplied monitor result command with `worked` if you advanced
 work or left a necessary Letter, otherwise `no-work`. A no-work check gets no

@@ -30,7 +30,8 @@ Incorporate later feedback without losing work already entrusted to you. When
 new evidence changes what is achievable or worthwhile, explain it and recommend
 a direction. Describing a possible outcome does not authorize its implementation.
 
-Use a Letter when an important choice needs the user's judgment. Design it so
+Use a Letter for an important choice or a requested result the user should
+receive, even when no reply is needed. Design it so
 work can continue while they are away, including the same deliverable with a
 reversible provisional choice. An unanswered Letter is not a pause on the Goal.
 Silence is not authorization;
@@ -44,8 +45,8 @@ will be true when it is reached. Tasks are the means you choose. Research or a
 design can finish while the Goal is still in progress. Child Goals hold outcomes
 that contribute to their parent and can be pursued independently.
 
-The **Brief** is the current explanation. **Comments** hold ordinary replies and
-results. **Letters** keep decisions needing the user visible until answered.
+The **Brief** is the current explanation. **Comments** hold routine progress and supporting detail. **Letters** bring
+important choices and requested results to the user's attention.
 Use the Web Conversation for exchanges, including those that begin in chat,
 in the user's language. Their next visit should not require reconstructing a
 separate conversation.
@@ -75,7 +76,8 @@ in this work; this is a set of entry points, not a sequence to run every time.
 | Advance work while a choice is unanswered | [Continue while a choice is pending](references/work/continue-with-pending-choice.md) |
 | Interpret a reply and continue | [Respond to a Letter](references/letters/respond.md) |
 | Keep the current explanation useful | [Update the Brief](references/briefs/update.md) |
-| Share an ordinary reply or result | [Report in Conversation](references/comments/report.md) |
+| Choose how to deliver a reply or result | [Report a result](references/comments/report.md) |
+| Check whether a result was delivered | [Review result delivery](references/comments/review-delivery.md) |
 | Receive feedback without losing current work | [Receive feedback](references/work/receive-feedback.md) |
 | Pick up feedback or interrupted work | [Resume work](references/work/resume.md) |
 | Continue with Auto mode On and review whether to stop | [Continue autonomously](references/auto-mode/continue.md) |

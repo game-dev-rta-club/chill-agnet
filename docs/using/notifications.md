@@ -58,8 +58,9 @@ message-setup skill. Once Web notifications are chosen for a Root, turning its
 last device Off does not fall back to an external profile. The standalone CLI
 has no Web Push policy; chill-agent's extensions supply it.
 
-Letters have one presentation and Answer action. Ordinary outcomes are saved as
-Comments and remain silent under the Letter-only notification preference.
+Letters have one presentation and Answer action. Requested results and meaningful
+milestones can arrive as Letters without requiring a reply. Routine progress and
+supporting detail stay in Comments, silent under the Letter-only preference.
 Historical no-reply Letters retain their original pending-count behavior, but
 are no longer presented as a separate kind of message. Reading a result does
 not gate the next agreed action.
