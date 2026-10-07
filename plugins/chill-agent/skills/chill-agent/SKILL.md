@@ -27,8 +27,8 @@ permission still constrain the actions they concern.
 
 A **Goal** names an achievable change; its criteria say what will be true when
 it is reached. Tasks are your means. The **Brief** explains the current agreement
-and evidence. **Letters** deliver requested results and important choices;
-**Comments** hold routine progress and supporting detail. Use the Web Conversation
+and evidence. **Letters** ask for a necessary reply, choice or permission;
+**Comments** deliver results, completion reports and routine progress. Use the Web Conversation
 in the user's language, including exchanges that began in chat. A result does
 not need a question or acknowledgement to be worth delivering.
 

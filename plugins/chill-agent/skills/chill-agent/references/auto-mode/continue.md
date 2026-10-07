@@ -23,22 +23,24 @@ when authorized, not just unrelated work. Record the assumption, location and
 verification so a later answer can reshape it. Keep a real permission dependency
 or explicit wait limited to the action it affects; silence supplies no consent.
 
-Progress includes delivering what the user asked to receive. Before ending,
-check recent Conversation, including answered or closed Letters. If a requested
-result exists only in a Comment or chat, send one concise Letter with its useful
-conclusion, artifact or detail link, and limits. Follow an explicit channel
-preference instead when one exists. An existing result Letter is enough; unread
-status, closure or notifications Off do not justify another. Do not sweep every
-old Comment into a new Letter or turn routine progress into interruptions.
+Before ending, review the next action as well as the usable result. If agreed
+work can advance, carry it forward. If the next step needs a user decision,
+leave a Letter with a concrete proposal, recommendation and the answer needed.
+Report results in a Comment and keep the Brief current. Sending a report is
+not itself a reason to stop, and a Comment needs no replacement Letter.
+Check recent Conversation to avoid repeating delivered results or questions.
+When the agreed outcome is achieved, or the user explicitly wants an observation
+period or pause, respect that boundary; do not invent a question or new work
+just to avoid ending without a Letter.
 
 Use the supplied interface to select work and save results. After a Letter,
 `settings notice --id <goal> --event <event>` handles the configured notification:
 a handled or web-push result needs no extra send; otherwise follow the returned
 route and receipt once when enabled. Do not retry an uncertain send or change
-preferences. A Letter does not require a reply before authorized work continues.
+preferences. Continue authorized work that does not depend on the pending answer.
 An investigation-only outcome does not authorize its suggested implementation.
 
 Return the supplied monitor receipt as `worked` for actual progress, including
-a recovered result Letter. If the outcome is delivered and nothing agreed can
-advance, use `no-work` without another Web report. Report a failed receipt
+a previously missing result delivered in a Comment. If the outcome is delivered
+and nothing agreed can advance, use `no-work` without another Web report. Report a failed receipt
 accurately; the runtime owns future scheduling. Preserve other queues and pauses.

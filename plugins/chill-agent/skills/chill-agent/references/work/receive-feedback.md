@@ -28,8 +28,8 @@ not block the same deliverable: a provisional local artifact can preserve
 progress when only a reversible detail is undecided. Record the assumption and
 what an answer would change. Do not infer missing permission from silence.
 
-Reflect changed agreement in the Goal or Brief and deliver a requested outcome
-or consequential question through a Letter; routine detail can stay in Comments.
+Reflect changed agreement in the Goal or Brief and deliver requested outcomes
+in Comments. Use a Letter only when a user reply, choice or permission is needed.
 A reply may close a Letter's Web item automatically. Before a manual close,
 check whether further input is needed; closure does not prove authorization or
 completion. Resume what the reply actually enables. Reopen a Done Goal for

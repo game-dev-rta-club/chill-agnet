@@ -1,23 +1,21 @@
 ---
 keyPoints: >-
   Deliver what the user needs to receive, with enough context to use or decide.
-  Letters carry requested results and meaningful choices; Comments keep routine detail.
+  Letters ask for necessary replies; Comments carry results and progress.
 ---
 
 # Send a message
 
-Leave the user with a useful outcome or a concrete choice, without requiring
-them to watch the Web continuously. A requested investigation's conclusion,
-a completed artifact, or an important decision belongs in a Letter even when
-no reply is needed. Routine progress and supporting detail belong in Comments.
-Follow the user's channel preference and avoid a new Letter for each internal step.
+Use a Letter only when the user needs to answer, choose or grant permission.
+Use a Comment for requested findings, completed artifacts and progress; keep
+the current explanation in the Brief. Do not turn a report into a question or
+ask for acknowledgement just to leave a Letter open.
 
-Lead with what changed, then give the evidence, artifact link and limitation
-needed to use it. A concise Letter can point to a detailed Comment. Keep one
-Letter format; a result needs neither an invented question nor acknowledgement.
-Check recent messages before delivering the same outcome again, including
-Letters already answered or closed. If a result was left only in a Comment,
-recover that handoff once rather than duplicating the whole report.
+Lead with the result, evidence, artifact link and limitations needed to use it.
+For a real decision, explain the next proposed action, your recommendation and
+what the answer changes. Check recent Conversation, including answered and
+closed Letters, to avoid repeating either a report or an existing question.
+A result already delivered in a Comment needs no replacement Letter.
 
 For a consequential choice that belongs to the user, investigate available facts
 and prepare enough authorized work to make your recommendation concrete. Explain
