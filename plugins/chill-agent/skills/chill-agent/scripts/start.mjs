@@ -43,10 +43,10 @@ export function validatePin(pin){
  return pin;
 }
 async function usable(directory){try{await access(join(directory,'bin/chill-session.mjs'));await access(join(directory,'extensions.json'));return true;}catch{return false;}}
-export async function runtimeDirectory({project=process.cwd(),cacheRoot=join(homedir(),'.chill-agent','installations'),install}={}){
+export async function runtimeDirectory({project=process.cwd(),cacheRoot=join(homedir(),'.chill-agent','installations'),install,pin}={}){
  // Compatibility plugins and immutable runtime guides already have a runtime.
- const embedded=resolve(here,'../../..');if(await usable(embedded))return embedded;
- let pin;try{pin=validatePin(JSON.parse(await readFile(join(here,'runtime.json'),'utf8')));}catch(error){throw Error('Install the complete built skill with its fixed runtime.json. '+error.message);}
+ const embedded=resolve(here,'../../..');if(!pin&&await usable(embedded))return embedded;
+ try{pin=validatePin(pin||JSON.parse(await readFile(join(here,'runtime.json'),'utf8')));}catch(error){throw Error('Install the complete built skill with its fixed runtime.json. '+error.message);}
  const identity=await realpath(resolve(project));
  const key=createHash('sha256').update(identity).digest('hex');
  const version=createHash('sha256').update(JSON.stringify(pin)).digest('hex');
@@ -58,7 +58,7 @@ export async function runtimeDirectory({project=process.cwd(),cacheRoot=join(hom
   if(install)await install(stage,pin);
   else{
    const npm=await npmEntry();
-   await run(process.execPath,[npm,'install','--no-audit','--no-fund','--no-progress'],{cwd:stage,env:{...process.env,CHILL_BUILD_DEVELOPMENT:'1',CHILL_SKILL_REVISION:pin.spec.split('#')[1]},maxBuffer:8*1024*1024});
+   await run(process.execPath,[npm,'install','--no-audit','--no-fund','--no-progress'],{cwd:stage,env:{...process.env,CHILL_BUILD_DEVELOPMENT:'1',CHILL_SKILL_REVISION:pin.spec.split('#')[1]},timeout:8*60*1000,maxBuffer:8*1024*1024});
   }
   if(!await usable(join(stage,'node_modules',pin.name,'dist/runtime')))throw Error('Installed package is missing its built runtime.');
   await writeFile(join(stage,'installed.json'),JSON.stringify(pin));
@@ -75,7 +75,9 @@ if(process.argv[1]&&await realpath(process.argv[1])===await realpath(fileURLToPa
    console.log(JSON.stringify(await prerequisites(),null,2));
   }else{
   const runtime=await runtimeDirectory({project:index<0?process.cwd():args[index+1]});
-  const result=await run(process.execPath,[join(runtime,'bin/chill-session.mjs'),...args],{maxBuffer:4*1024*1024});process.stdout.write(result.stdout);
+  const env={...process.env};delete env.CHILL_AGENT_RUNTIME_MANIFEST;
+  try{env.CHILL_AGENT_RUNTIME_MANIFEST=await realpath(join(here,'runtime.json'));}catch{}
+  const result=await run(process.execPath,[join(runtime,'bin/chill-session.mjs'),...args],{env,maxBuffer:4*1024*1024});process.stdout.write(result.stdout);
   }
  }catch(error){console.error(error.stderr||error.message);process.exitCode=1;}
 }

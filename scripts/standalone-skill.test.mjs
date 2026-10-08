@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp,mkdir,cp,writeFile,rm,readFile,readdir} from 'node:fs/promises';
+import {mkdtemp,mkdir,cp,writeFile,rm,readFile,readdir,realpath} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -21,6 +21,15 @@ test('failed installation is not published; concurrent installs converge',()=>fi
  const [a,b]=await Promise.all([1,2].map(()=>api.runtimeDirectory({...options,install:fakeInstall})));assert.equal(a,b);
 }));
 test('moving or foreign pins are rejected',()=>fixture(async(root,api)=>{for(const spec of ['latest','git+https://github.com/game-dev-rta-club/chill-agnet.git#develop','git+https://evil.example/repo#'+'a'.repeat(40)])assert.throws(()=>api.validatePin({...pin,spec}),/immutable/);}));
+test('an explicit update pin bypasses the embedded runtime without replacing it',()=>fixture(async(root)=>{
+ const embedded=join(root,'embedded'),scripts=join(embedded,'skills/chill-agent/scripts');await mkdir(scripts,{recursive:true});await cp(source,join(scripts,'start.mjs'));
+ const api=await import(pathToFileURL(join(scripts,'start.mjs')));
+ await mkdir(join(embedded,'bin'));await writeFile(join(embedded,'bin/chill-session.mjs'),'');await writeFile(join(embedded,'extensions.json'),'{}');
+ assert.equal(await api.runtimeDirectory({project:root,install:()=>{throw Error('Must reuse embedded runtime');}}),await realpath(embedded));
+ const next={...pin,spec:pin.spec.replace(/a{40}$/,'b'.repeat(40))};let installed;
+ const runtime=await api.runtimeDirectory({project:root,pin:next,cacheRoot:join(root,'cache'),install:async(stage,p)=>{installed=p;await fakeInstall(stage,p);}});
+ assert.notEqual(runtime,embedded);assert.deepEqual(installed,next);assert.equal(await readFile(join(embedded,'extensions.json'),'utf8'),'{}');
+}));
 test('preflight runs without a runtime manifest and writes no installation',()=>fixture(async(root)=>{
  await rm(join(root,'skill/scripts/runtime.json'));
  const before=await readdir(root);
