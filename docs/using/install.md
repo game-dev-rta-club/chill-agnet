@@ -41,15 +41,18 @@ exiting and resuming the **same conversation** after Hook review. The agent will
 say when this is necessary; copying files alone cannot establish that connection.
 See [Claude reception](claude-code.md) for its finite idle-watch limitation.
 
-## Existing stable release (bundled)
+## Stable release
 
-Download **chill-agent-skill-0.3.0.tgz** from [release v0.3.0](https://github.com/game-dev-rta-club/chill-agnet/releases/tag/v0.3.0).
+Download **chill-agent-skill-0.4.0.tgz** from [release v0.4.0](https://github.com/game-dev-rta-club/chill-agnet/releases/tag/v0.4.0).
 Extract it and install the complete `chill-agent/` folder using the locations
-above. It contains the bundled runtime; no build or setup script is required
-from the user. The separate `game-dev-rta-club-chill-agent-0.3.0.tgz` asset is the
-npm-installable application archive, including the same standalone skill and
-compatibility plugin outputs. This is a GitHub archive distribution, not an npm
-registry package.
+above. This is a thin skill: its manifest pins the release's exact application
+commit. On first invocation, npm acquires and builds that commit with the fixed
+CLI input. Later invocations reuse the project-specific installation.
+
+The separate `game-dev-rta-club-chill-agent-0.4.0.tgz` asset is the npm-installable
+application archive, with its composed runtime, the same thin skill and bundled
+compatibility plugins. This is a GitHub archive distribution, not an npm registry
+package.
 
 For a fixed development checkout, maintainers can run `npm ci` and
 `npm run check:development` with Node.js 24 to build `dist/skills/chill-agent`.
@@ -61,7 +64,7 @@ and [Claude Code skills](https://code.claude.com/docs/en/skills).
 
 ## Development installs and updates
 
-Current develop builds emit a thin skill. The starter uses npm to install the
+Both 0.4.0 release and development builds emit a thin skill. The starter uses npm to install the
 full app at the immutable Git commit in runtime.json, including its pinned CLI
 and locked dependencies. No npm registry release or version bump is required
 for this development path. First installation builds the package and may take

@@ -19,7 +19,7 @@ questionnaire. Later feedback changes the work without erasing earlier intent.
 A proposed direction is not permission to implement it.
 
 Prefer usable, reversible progress to waiting on an unsettled detail. A Letter
-records a choice or delivers a result, not a pause on the whole Goal. Preserve
+asks for a necessary reply; it does not pause the whole Goal. Preserve
 assumptions so the work can adapt to an answer. Explicit pauses and missing
 permission still constrain the actions they concern.
 

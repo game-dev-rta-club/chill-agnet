@@ -36,7 +36,7 @@ that project's workspace and opens its Web page; there is no separate setup
 command for you to run.
 
 The same folder works in **Codex Desktop** and **Claude Code (experimental connection)** on macOS.
-Node.js 24.15 or newer is required. See
+Node.js 24.15 or newer, npm and Git are required; first use needs network access. See
 [Install the skill](docs/using/install.md) for locations and how to obtain the
 built folder. Initial native Hook approval may still be required; Claude may
 also need to resume the same conversation to activate its connection. The agent
