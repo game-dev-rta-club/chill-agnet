@@ -1,7 +1,7 @@
 ---
 keyPoints: >-
-  Ask the runtime for the calling connection's interface. Reuse a verified
-  workspace; on first use let the runtime prepare it and follow its next actions.
+  Reuse the calling workspace. On first use follow the runtime's welcome flow:
+  prepare an initial Goal, open Web and request only necessary native activation.
 ---
 
 # Connect this conversation
@@ -10,6 +10,22 @@ Keep the calling harness and conversation/context. A project directory or Goal
 ID does not authorize handing work to another conversation.
 
 ## Read the selected interface
+
+On first use, check prerequisites before acquiring the application or preparing
+the workspace:
+
+```sh
+node '<skill-directory>/scripts/start.mjs' preflight
+```
+
+This check installs nothing. If Node cannot run, inspect the local installation
+first. Node.js 24.15+, npm and Git are needed; `cloudflared` is needed for a phone
+or public link. Explain any missing tool's purpose and the specific installation
+you propose, and obtain the user's agreement before installing or repairing it.
+For missing cloudflared, offer installation or local-only use. Reuse permission
+already given for that exact action, then recheck. Tool installation does not
+authorize publishing a link. Do not replace this with a setup command list for
+the user. Existing connected work does not need repeated installation questions.
 
 Identify the calling harness from the current host, never from a model name or
 another Goal's binding. Do not guess when the host is unknown. Resolve this
@@ -45,12 +61,19 @@ node '<skill-directory>/scripts/start.mjs' start --project '<native-project-dire
 
 Use the available Node.js 24 executable. The runtime prepares the isolated store
 and starts or reuses Web, returning its stable `command` and selected interface.
-Follow the returned next actions and verify connection confirmation before Root
-creation. Native trust or activation may require the user; never approve it on
-their behalf. An installed file or a running Web is not proof of connection.
+Follow `interface.onboarding` in order, using the returned `url` and `command`.
+The selected interface's `activation` and operation confirmation rules determine
+what must be verified before Root creation. Preparation alone does not verify
+native activation; `connectionVerified:false` is not evidence that approval is
+required. Native trust remains the user's decision.
 
 Do not give the user a setup command list. An incomplete installation needs the
 complete built skill, not a different harness or an arbitrary runtime download.
-After connection verification, creating a useful Goal is the next action; open
-the local Web once it exists.
+Prepare the initial Goal and Brief from the supplied outcome, or the interface's
+discovery starter when the user only asks to begin. Open that page using the host
+browser tool before asking a question or ending the turn. If native activation
+prevents creation, open the workspace URL first and explain the required action
+using the interface's short message. If opening fails, supply the clickable URL.
+Keep the same Goal as the conversation gives it a concrete outcome. An existing
+connection keeps its Goal; resuming must not add another starter.
 Preserve existing public-access settings, queues and manual pauses.

@@ -10,6 +10,11 @@ On your computer, choose **More → Public link** and turn it On. Confirm the
 scope, then scan the QR with your phone's camera. **Copy link** offers the same
 address. The **More** link inside that panel explains access and custom URLs.
 
+The skill checks for `cloudflared` during first setup and asks before installing
+it. If you chose local-only use, ask your agent to prepare Public link when you
+need it. A failed link does not mean your local workspace has stopped; ask the
+agent to check the tool and connection instead of repeatedly toggling On.
+
 Temporary links need `cloudflared` installed. They expose every Goal in this
 workspace, including replies, to anyone with the link. Off closes the tunnel
 while the local Web stays available. It preserves the saved custom connection

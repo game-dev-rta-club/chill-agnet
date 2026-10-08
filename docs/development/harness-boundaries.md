@@ -16,7 +16,8 @@ know which host has a durable Queue or a main-tool confirmation protocol.
 | Skill and action references | Outcomes, scope, feedback priority, useful results and common interface entry |
 | `session guide --harness <id>` | Read-only selected operations, confirmation rules, next actions and constraints |
 | `extensions/harnesses/<id>.mjs` | Host-specific setup options and operation guidance |
-| `session start` | Common isolated preparation and Web reuse; returns the selected interface |
+| Skill starter `preflight` | Checks tools without acquiring the runtime, installing tools or starting Web |
+| `session start` | Common isolated preparation and Web reuse; returns the selected interface and welcome sequence |
 | CLI native implementation | Identity capture, Hook installation, receipt validation, actual transport and recovery |
 
 A runtime adapter is trusted application code registered in
@@ -34,6 +35,20 @@ established stable prefix. `operations` names creation, receipt, inspection and
 work-selection routes; absent/null operations are unsupported. A pending marker
 is not success: follow each operation's confirmation rule. Next actions cover
 native activation; constraints retain the connection's operational limits.
+`onboarding` supplies the shared ordered welcome, initial discovery Goal and
+short message templates. Each adapter's `activation` supplies native prerequisites,
+the user action when evidence calls for it, and its confirmation boundary. Setup
+does not auto-approve Hooks or pretend browser opening happened: the agent uses
+the host browser tool and checks the result. A pending native step must not hide
+the running Web. The same initial Goal evolves into the user's concrete outcome.
+
+`connectionVerified:false` means preparation did not test the native route; it
+does not mean permission is missing. A Codex Root's verified conversation owner
+is separate from PostToolUse Hook trust. Claude still requires its main-hook
+identity and creation confirmation. The composed `session start` replaces the
+lower-level setup `next` with this experience's next step; old setup commands
+remain compatible and do not own the welcome.
+
 The agent still identifies its actual calling host and native project directory.
 The runtime does not infer identity from a model name, current Goal or directory.
 

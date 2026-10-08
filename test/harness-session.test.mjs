@@ -22,14 +22,25 @@ for(const harness of ['codex-desktop','claude-code'])for(const running of [true,
     assert.equal(options.env.CHILL_AGENT_DATA_DIR,undefined);
     if(args[1]==='status')return {stdout:JSON.stringify({idleWatchMs:60000})};
     assert.deepEqual(args.slice(1),['prepare','--isolated','--project',await realpath(project),'--harness',harness,...(harness==='claude-code'?['--idle-watch-ms','60000']:[])]);
-    return {stdout:JSON.stringify({launcher:'stable',dataDirectory:'/selected',command:'stable-prefix'})};
+    return {stdout:JSON.stringify({launcher:'stable',dataDirectory:'/selected',command:'stable-prefix',url:'http://127.0.0.1:51234',next:'legacy setup instructions'})};
    }
    assert.equal(options.env.CHILL_AGENT_DATA_DIR,'/selected');
    return {stdout:args[2]==='status'?(running?'Running (PID 10): http://localhost':'Stopped'):'Started'};
   }});
   assert.equal(result.connectionVerified,false);assert.equal(result.interface.harnessId,harness);
+  assert.equal(result.url,'http://127.0.0.1:51234');assert.equal(result.command,'stable-prefix');
+  assert.notEqual(result.next,'legacy setup instructions');
+  assert(result.interface.activation.beforeCreate);assert(result.interface.onboarding.initialGoal.brief);
   assert.equal(calls.some(args=>args[2]==='start'),!running);
  }finally{await rm(project,{recursive:true,force:true});}
+});
+test('guide is read-only and returns independent welcome data for each caller',()=>{
+ const a=harnessGuidance('codex-desktop'),b=harnessGuidance('claude-code');
+ assert.deepEqual(a.onboarding,b.onboarding);
+ assert.notDeepEqual(a.activation,b.activation);
+ a.onboarding.initialGoal.title='changed';
+ assert.notEqual(harnessGuidance('codex-desktop').onboarding.initialGoal.title,'changed');
+ assert.equal(b.onboarding.initialGoal.title,harnessGuidance('claude-code').onboarding.initialGoal.title);
 });
 test('unknown harness fails before performing setup',async()=>{
  let calls=0;await assert.rejects(startSession({project:'/absent',harness:'unknown'},{execute:async()=>{calls++;}}),/Unknown harness/);assert.equal(calls,0);
