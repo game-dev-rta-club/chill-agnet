@@ -1,24 +1,21 @@
 ---
 keyPoints: >-
-  Develop pins the SQLite-capable CLI and qualifies an isolated native Web roundtrip.
-  New development workspaces use SQLite by default; installed runtimes and production data are unchanged.
+  Release and development builds qualify an isolated SQLite Web roundtrip.
+  New workspaces use SQLite by default; qualification leaves production data unchanged.
   Explicit resume reception is tested separately from unattended idle operation.
 ---
 
 # Qualify the SQLite runtime
 
-The development input pins CLI `72113ed86e841d01f411b1334e8b98398f63ed0b`.
-Prepare that exact composed artifact using `npm ci` and
-`npm run check:development`. The stable release dependency is unchanged.
-See [cross-repository inputs](two-repositories.md) for the build contract and
-[SQLite storage](https://github.com/game-dev-rta-club/chill-agent-cli/blob/develop/docs/runtime/sqlite.md)
-for data ownership, query boundaries and migration stages.
+The 0.4.0 release adopts CLI 0.4.0. Use `npm ci` and `npm run check` for the
+released dependency; `npm run check:development` selects the exact commit in
+`development-cli.json`. See [cross-repository inputs](two-repositories.md) for
+the build contract and [SQLite storage](https://github.com/game-dev-rta-club/chill-agent-cli/blob/main/docs/runtime/sqlite.md)
+for data ownership and query boundaries.
 
-New data directories select SQLite without a storage variable, and existing
-database directories detect it on reopening. Node.js 24.15 or newer is required.
-Existing schema-marked JSON workspaces stay JSON until explicitly migrated;
-the stable release dependency and installed runtimes are unchanged.
-Never point a rehearsal at the original legacy data directory.
+New data directories select SQLite without a storage variable, and database
+directories detect it on reopening. Node.js 24.15 or newer is required. Run these
+qualification commands only with their isolated test data.
 
 ## Run the native Web roundtrip
 
@@ -78,17 +75,5 @@ The existing 11 Claude continuation tests also pass with SQLite:
 node --test dist/runtime/test/claude-continuation.test.mjs
 ```
 
-Storage-qualified delivery is not migration evidence. Before switching an old
-installation, inventory its transport/extension files, import a copy preserving
-IDs and receipts, prevent replay during validation, and test recovery. No running
-user workspace is updated by these build or qualification commands.
-
-## Rehearse migration with the composed artifact
-
-The runtime includes `bin/chill-migrate.mjs` and its SQLite implementation.
-Use its `create`, `verify`, `restore`, `verify-restored`, `prepare` and
-`verify-prepared` commands against disposable copies. Follow the CLI
-[migration guide](https://github.com/game-dev-rta-club/chill-agent-cli/blob/develop/docs/runtime/sqlite-migration.md).
-`prepare` creates a pending data directory; its marker blocks normal startup
-until activation reconciles historical bindings and unresolved transport state.
-It does not reconnect old sessions or activate archived queues.
+The runtime also includes `bin/chill-migrate.mjs`. Its offline tool contract is
+documented in the CLI [migration guide](https://github.com/game-dev-rta-club/chill-agent-cli/blob/main/docs/runtime/sqlite-migration.md).

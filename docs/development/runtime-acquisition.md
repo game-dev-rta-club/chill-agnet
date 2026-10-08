@@ -15,12 +15,13 @@ the boundary between repositories or the SQLite data model.
 
 ## Pin and prepare
 
-The development manifest accepts only the official app Git URL with a full
-40-character commit. Moving branches and latest are rejected. npm prepares the
+Release and development manifests accept only the official app Git URL with a
+full 40-character commit. Moving branches and latest are rejected. npm prepares the
 Git dependency from that revision, using the committed package lock and exact
 `development-cli.json` input, then builds the composed runtime. This requires
-Node.js 24.15+, npm, Git and network on first installation. No version is bumped
-and no registry publication is implicit. A future registry distribution must
+Node.js 24.15+, npm, Git and network on first installation. Development pins do
+not bump a version; release skill manifests pin the tagged application commit.
+No npm registry publication is implicit. A future registry distribution must
 provide an equally immutable input and locked transitive dependencies.
 
 Install under `~/.chill-agent/installations/<resolved-project-hash>/<pin-hash>`.
