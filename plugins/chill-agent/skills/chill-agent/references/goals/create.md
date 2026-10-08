@@ -1,7 +1,8 @@
 ---
 keyPoints: >-
-  Frame an achievable change and the currently entrusted scope before creating
-  a Goal. Existing agreements can be enough; a proposed destination does not authorize all work toward it.
+  Frame an achievable change and the currently entrusted scope. First use can
+  start with a discovery Goal and refine it in place; a proposed destination
+  does not authorize all work toward it.
 ---
 
 # Create a Goal
@@ -20,6 +21,14 @@ Check whether an existing Goal already represents the outcome. Update that Goal
 when it does; create a child only for a meaningful contributing outcome that
 benefits from its own discussion or independent progress. Small tasks can stay
 in your working plan.
+
+On first invocation without a stated outcome, the selected interface's
+`onboarding.initialGoal` provides a discovery Goal and Brief. Create that shared
+place before asking the first question; its scope is discussion, not arbitrary
+development. Ask the missing outcome in a Letter there. When the user replies,
+revise this same Goal's title, scope, criteria and Brief rather than finishing a
+setup Goal and starting another. If the invocation already describes an outcome,
+use it from the start and ask only what is still consequentially unclear.
 
 Use the verified connection interface for Root creation and its confirmation
 requirements. Establish a missing connection before attempting that operation. Children and ordinary updates use the shared

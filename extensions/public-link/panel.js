@@ -6,7 +6,9 @@ export async function mount({element,goalId,api,changed,signal,confirm}){
   box.hidden=!s.url;copy.hidden=!s.url;
   if(s.url){const link=`${s.url}/#/goal/${goalId}`;box.querySelector('a').href=link;box.querySelector('a').textContent=link;box.querySelector('img').src=s.qr;}
   if(s.error)message.textContent=s.error;
+  else if(s.status==='failed')message.textContent='Ask your agent to check Public link setup, including the cloudflared tool and the connection. The local page is still available.';
   else if(!s.local)message.textContent='Change public access on the computer running chill-agent.';
+  else message.textContent='';
  }
  help.onclick=()=>{info.hidden=!info.hidden;help.setAttribute('aria-expanded',String(!info.hidden));};
  copy.onclick=async()=>{try{await navigator.clipboard.writeText(`${state.url}/#/goal/${goalId}`);message.textContent='Copied';}catch{message.textContent='Copy the link above.';}};

@@ -1,8 +1,8 @@
 ---
 keyPoints: >-
   Install one complete built chill-agent skill folder for either host, then invoke
-  it in the target project. The agent prepares the local workspace; native Hook
-  approval and Claude connection activation can still require user action.
+  it in the target project. The agent checks tools, prepares an initial Goal and
+  opens Web. Missing tools and native activation receive specific instructions.
 ---
 
 # Install and invoke the skill
@@ -32,13 +32,35 @@ the skill does not silently move their Goals to a different project.
 
 ## First connection
 
-First acquisition requires Node.js 24.15+, npm, Git and network access. The
-automatic Web startup currently requires macOS and the
-supported host. Native tool access
-and Hook approval remain under your host's control. Codex can ask you to trust
-the project Hook. Claude needs a verified SessionStart handoff and may require
-exiting and resuming the **same conversation** after Hook review. The agent will
-say when this is necessary; copying files alone cannot establish that connection.
+The first invocation follows this sequence:
+
+1. **Check this computer.** The agent checks Node.js 24.15+, npm and Git before
+   downloading the fixed application. It also checks `cloudflared`, which is
+   needed for a phone or public link. If a tool is missing or unusable, it explains
+   what it does and asks before installing or repairing it. You can choose local
+   use without cloudflared. Installing it does not turn on public access.
+2. **Prepare your first Goal.** If you supplied an outcome, its title and Brief
+   start with that request. If you just invoked the skill, the page starts with
+   “Let's decide what you want to achieve” and a short explanation. You answer
+   the first question there, then the agent updates that same Goal as the
+   direction becomes clear. It does not leave a separate setup Goal behind.
+3. **Open the page.** The agent opens Web with its browser tool and provides a
+   clickable link. It says what you can do next in plain language. If opening is
+   unavailable, it provides the link without claiming to have opened it.
+
+The first download needs network access. Automatic Web startup currently requires
+macOS and a supported host. Native tool access and Hook approval remain under
+your host's control. If activation prevents Goal creation, the agent opens the
+workspace page first, explains what is still needed and gives one concrete
+action. A running Web is not proof that replies are connected.
+
+Codex may ask you to review the chill-agent connection. The agent identifies the
+actual review control offered by your installed host instead of assuming the
+CLI's `/hooks` command is available in Desktop. See the official
+[Hook review documentation](https://learn.chatgpt.com/docs/hooks#review-and-trust-hooks).
+Claude needs a verified SessionStart handoff and may require exiting and resuming
+the **same conversation** after Hook review. The agent explains this only when
+needed; copying files alone cannot establish that connection.
 See [Claude reception](claude-code.md) for its finite idle-watch limitation.
 
 ## Stable release
