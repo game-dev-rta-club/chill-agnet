@@ -66,7 +66,8 @@ export async function runtimeDirectory({project=process.cwd(),cacheRoot=join(hom
   return runtime;
  }finally{await rm(stage,{recursive:true,force:true});}
 }
-if(process.argv[1]&&await realpath(process.argv[1])===fileURLToPath(import.meta.url)){
+// Canonicalize both sides: Windows temp paths can use a short directory alias.
+if(process.argv[1]&&await realpath(process.argv[1])===await realpath(fileURLToPath(import.meta.url))){
  try{
   const args=process.argv.slice(2),index=args.indexOf('--project');
   if(args[0]==='preflight'){
