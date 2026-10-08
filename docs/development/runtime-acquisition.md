@@ -64,6 +64,8 @@ commits, so a development update with the same package version is visible too.
 Missing or invalid sources yield no candidate. Acquisition uses the existing
 project-specific npm installer with an explicit pin, an eight-minute timeout and
 a check that the resulting build revision matches the confirmed commit.
+The installer puts its current Node directory first on PATH for npm lifecycle
+scripts, including when the update worker starts with launchd's minimal environment.
 
 The CLI handles the local-only icon, confirmation, independent restart worker,
 snapshot preparation and recovery. See its

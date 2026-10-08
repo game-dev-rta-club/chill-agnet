@@ -58,7 +58,10 @@ export async function runtimeDirectory({project=process.cwd(),cacheRoot=join(hom
   if(install)await install(stage,pin);
   else{
    const npm=await npmEntry();
-   await run(process.execPath,[npm,'install','--no-audit','--no-fund','--no-progress'],{cwd:stage,env:{...process.env,CHILL_BUILD_DEVELOPMENT:'1',CHILL_SKILL_REVISION:pin.spec.split('#')[1]},timeout:8*60*1000,maxBuffer:8*1024*1024});
+   // launchd workers have a minimal PATH. npm lifecycle scripts must resolve the
+   // same Node that launched the installer, not a missing or older system Node.
+   const env={...process.env,PATH:[dirname(process.execPath),process.env.PATH].filter(Boolean).join(delimiter),CHILL_BUILD_DEVELOPMENT:'1',CHILL_SKILL_REVISION:pin.spec.split('#')[1]};
+   await run(process.execPath,[npm,'install','--no-audit','--no-fund','--no-progress'],{cwd:stage,env,timeout:8*60*1000,maxBuffer:8*1024*1024});
   }
   if(!await usable(join(stage,'node_modules',pin.name,'dist/runtime')))throw Error('Installed package is missing its built runtime.');
   await writeFile(join(stage,'installed.json'),JSON.stringify(pin));
