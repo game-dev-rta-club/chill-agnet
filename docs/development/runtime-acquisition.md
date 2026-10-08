@@ -47,3 +47,30 @@ still unsupported; changing npm acquisition does not remove that limitation.
 Verification covers offline reuse, project and pin isolation, failed acquisition
 and concurrent publication. Integration also needs a real clean npm Git install
 of a pushed commit. Local build success alone does not prove remote acquisition.
+
+## Connect installed skills to Web updates
+
+The starter passes its original `runtime.json` location to session preparation.
+After setup selects the data directory, the app records that location and the
+canonical project path through the CLI extension API. It checks the pin against
+the composed build revision before saving. Calls from an immutable runtime guide
+have no external manifest and preserve the previous source. No source is inferred
+from the current Goal, another project's store or a mutable global installation.
+
+`extensions.json` carries the composed build revision and the trusted
+`runtimeUpdates` provider. The provider reads the installed manifest as JSON;
+it never runs scripts from that mutable location. Detection compares full
+commits, so a development update with the same package version is visible too.
+Missing or invalid sources yield no candidate. Acquisition uses the existing
+project-specific npm installer with an explicit pin, an eight-minute timeout and
+a check that the resulting build revision matches the confirmed commit.
+
+The CLI handles the local-only icon, confirmation, independent restart worker,
+snapshot preparation and recovery. See its
+[runtime update contract](https://github.com/game-dev-rta-club/chill-agent-cli/blob/develop/docs/runtime/data-and-updates.md).
+Public links have no administrator identity and cannot trigger a package update.
+This does not add automatic Windows startup or silently activate changed hooks.
+
+Implementation: [provider](../../lib/runtime-update-provider.mjs),
+[session preparation](../../lib/harness-session.mjs),
+[starter](../../plugins/chill-agent/skills/chill-agent/scripts/start.mjs).

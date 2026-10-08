@@ -33,5 +33,5 @@ jobs:
         if: runner.os == 'macOS'
       - run: npm run build -- --test
         if: runner.os == 'Windows'
-      - run: node --test dist/runtime/test/continuation-excerpt.test.mjs dist/runtime/test/notifications.test.mjs
+      - run: node --test dist/runtime/test/continuation-excerpt.test.mjs dist/runtime/test/notifications.test.mjs dist/runtime/test/runtime-update-provider.test.mjs dist/runtime/test/harness-session.test.mjs
         if: runner.os == 'Windows'

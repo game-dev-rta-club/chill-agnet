@@ -99,4 +99,18 @@ Data, settings and existing runtime snapshots stay in their existing locations.
 Updating the skill does not restart Web, migrate data, or silently update an
 existing conversation. Keep node_modules and installations out of Git.
 
+When a pull or skill installation changes the selected application commit,
+the **local Web** on the supported macOS setup shows an update icon in its top
+menu. Click it to see “再起動すると新しいバージョンになります。” Choose **OK**
+to prepare the new version and restart at the same page, or **キャンセル** to
+keep using the current version. If preparation fails, the current Web stays
+running. Detection does not download anything or change another project.
+
+This feature needs an update-capable runtime and one invocation of its installed
+standalone skill to remember the skill's location. Older running versions need
+the existing explicit runtime update once before they can show this icon.
+Public links, foreground servers and Windows do not offer this restart button.
+The icon follows the installed skill's fixed commit; it does not search GitHub
+for releases. A program rollback does not undo a database migration.
+
 See [runtime acquisition](../development/runtime-acquisition.md) for the design.

@@ -9,6 +9,8 @@ import {checkSkill} from './check-skill.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const cli=dirname(dirname(fileURLToPath(import.meta.resolve('@game-dev-rta-club/chill-agent-cli/runtime'))));
 const version=JSON.parse(await readFile(join(root,'package.json'),'utf8')).version;
+const commit=process.env.CHILL_SKILL_REVISION||execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
+if(!/^[a-f0-9]{40}$/.test(commit))throw Error('Full runtime commit required.');
 await checkSkill(join(root,'plugins/chill-agent/skills/chill-agent'));
 if(!['public-origin','agent-guidance','goal-context','run-output','connection-hooks','project-isolation'].every(cap=>extensionApi.extensionCapabilities?.includes(cap)))throw Error('Install a CLI archive with public-origin, agent-guidance, goal-context, run-output and connection-hooks support before building. See docs/development/two-repositories.md.');
 const target=join(root,'dist/runtime');
@@ -32,7 +34,7 @@ for(const [path,pkg] of Object.entries(appLock.packages)){
 }
 await writeFile(join(target,'npm-shrinkwrap.json'),JSON.stringify(runtimeLock,null,2)+'\n');
 for(const entry of ['chill-monitor','chill-session'])await cp(join(root,`bin/${entry}.mjs`),join(target,`bin/${entry}.mjs`));
-await writeFile(join(target,'extensions.json'),JSON.stringify({agentGuide:'skills/chill-agent/SKILL.md',connectionExtensions:{continuation:'./lib/claude-continuation.mjs'},modules:['./lib/continuation-extension.mjs','./lib/notifications.mjs','./lib/web-notifications.mjs','./lib/public-link-extension.mjs'],notificationProvider:'./lib/notification-routes.mjs',commands:{monitor:'bin/chill-monitor.mjs',session:'bin/chill-session.mjs'},help:{session:{summary:'Selected harness operations and first-use preparation.',detail:'Use chill session --help for the supported harness IDs and interface.'},monitor:{summary:'Optional continuation checks.',detail:'Use chill monitor --help for controls and internal results.'}}}));
+await writeFile(join(target,'extensions.json'),JSON.stringify({build:{revision:commit,version},runtimeUpdates:'./lib/runtime-update-provider.mjs',agentGuide:'skills/chill-agent/SKILL.md',connectionExtensions:{continuation:'./lib/claude-continuation.mjs'},modules:['./lib/continuation-extension.mjs','./lib/notifications.mjs','./lib/web-notifications.mjs','./lib/public-link-extension.mjs'],notificationProvider:'./lib/notification-routes.mjs',commands:{monitor:'bin/chill-monitor.mjs',session:'bin/chill-session.mjs'},help:{session:{summary:'Selected harness operations and first-use preparation.',detail:'Use chill session --help for the supported harness IDs and interface.'},monitor:{summary:'Optional continuation checks.',detail:'Use chill monitor --help for controls and internal results.'}}}));
 if(process.argv.includes('--test'))await cp(join(root,'test'),join(target,'test'),{recursive:true});
 // Recreate the generated plugin directory so retired plugins cannot ship again.
 await rm(join(root,'dist/codex'),{recursive:true,force:true});
@@ -55,7 +57,5 @@ claudeManifest.version=version;await writeFile(claudeMetadata,JSON.stringify(cla
 await rm(join(root,'dist/skills'),{recursive:true,force:true});
 const standalone=join(root,'dist/skills/chill-agent');
 await cp(join(root,'plugins/chill-agent/skills/chill-agent'),standalone,{recursive:true});
-const commit=process.env.CHILL_SKILL_REVISION||execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
-if(!/^[a-f0-9]{40}$/.test(commit))throw Error('Full runtime commit required.');
 await writeFile(join(standalone,'scripts/runtime.json'),JSON.stringify({name:'@game-dev-rta-club/chill-agent',spec:`git+https://github.com/game-dev-rta-club/chill-agnet.git#${commit}`},null,2)+'\n');
 console.log('Built standalone skill, CLI + optional continuation policy, Codex plugin and experimental Claude plugin');

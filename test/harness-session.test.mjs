@@ -14,9 +14,9 @@ test('selected interfaces preserve different receipt and completion semantics',(
  assert.throws(()=>harnessGuidance('unknown'),/no fallback/);
 });
 for(const harness of ['codex-desktop','claude-code'])for(const running of [true,false])test(`session prepares ${harness}; existing Web=${running}`,async()=>{
- const project=await mkdtemp(join(tmpdir(),'chill-session-')),calls=[];
+ const project=await mkdtemp(join(tmpdir(),'chill-session-')),calls=[],sources=[];
  try{
-  const result=await startSession({project,harness},{runtime:project,env:{PORT:'4174',CHILL_AGENT_DATA_DIR:'/foreign',KEEP:'yes'},execute:async(node,args,options)=>{
+  const result=await startSession({project,harness},{runtime:project,env:{PORT:'4174',CHILL_AGENT_DATA_DIR:'/foreign',KEEP:'yes',CHILL_AGENT_RUNTIME_MANIFEST:'/installed/runtime.json'},rememberSource:async source=>sources.push(source),execute:async(node,args,options)=>{
    calls.push(args);assert.equal(options.cwd,await realpath(project));assert.equal(options.env.PORT,undefined);assert.equal(options.env.KEEP,'yes');
    if(args[0].endsWith('chill-setup.mjs')){
     assert.equal(options.env.CHILL_AGENT_DATA_DIR,undefined);
@@ -28,6 +28,7 @@ for(const harness of ['codex-desktop','claude-code'])for(const running of [true,
    return {stdout:args[2]==='status'?(running?'Running (PID 10): http://localhost':'Stopped'):'Started'};
   }});
   assert.equal(result.connectionVerified,false);assert.equal(result.interface.harnessId,harness);
+  assert.deepEqual(sources,[{manifest:'/installed/runtime.json',project:await realpath(project),directory:'/selected'}]);
   assert.equal(result.url,'http://127.0.0.1:51234');assert.equal(result.command,'stable-prefix');
   assert.notEqual(result.next,'legacy setup instructions');
   assert(result.interface.activation.beforeCreate);assert(result.interface.onboarding.initialGoal.brief);
