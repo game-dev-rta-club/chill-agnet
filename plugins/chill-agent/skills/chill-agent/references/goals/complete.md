@@ -19,7 +19,9 @@ does not authorize implementation outside the current scope. Conversely, do not
 keep an achieved Goal open merely because more improvements could be imagined,
 or require a new approval for a result already within the agreement.
 
-Record the result and relevant evidence in the Brief and a Comment. All
+Record the evidence in the Brief and deliver the requested outcome in a
+Comment, without making acknowledgement a completion criterion. Use a Letter
+only for a necessary user reply or decision about a next step. All
 descendants must be Done before `goal update` can mark this Goal Done. Review
 ancestors against their own criteria; child completion is not parent completion.
 

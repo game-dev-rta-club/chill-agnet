@@ -1,3 +1,4 @@
+import {execFileSync} from 'node:child_process';
 import * as extensionApi from '@game-dev-rta-club/chill-agent-cli/extension-api';
 import {createRequire} from 'node:module';
 import {copyRuntime} from '@game-dev-rta-club/chill-agent-cli/runtime';
@@ -50,10 +51,11 @@ await cp(join(root,'plugins/claude-code/.claude-plugin'),join(claudePlugin,'.cla
 const claudeMetadata=join(claudePlugin,'.claude-plugin/plugin.json');
 const claudeManifest=JSON.parse(await readFile(claudeMetadata,'utf8'));
 claudeManifest.version=version;await writeFile(claudeMetadata,JSON.stringify(claudeManifest,null,2)+'\n');
-// A normal skill installation is self-contained; no plugin loader is required.
+// Standalone skills pin an npm-installable runtime instead of copying its dependencies.
 await rm(join(root,'dist/skills'),{recursive:true,force:true});
 const standalone=join(root,'dist/skills/chill-agent');
 await cp(join(root,'plugins/chill-agent/skills/chill-agent'),standalone,{recursive:true});
-await cp(target,join(standalone,'scripts/runtime'),{recursive:true});
-await rm(join(standalone,'scripts/runtime/test'),{recursive:true,force:true});
+const commit=process.env.CHILL_SKILL_REVISION||execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
+if(!/^[a-f0-9]{40}$/.test(commit))throw Error('Full runtime commit required.');
+await writeFile(join(standalone,'scripts/runtime.json'),JSON.stringify({name:'@game-dev-rta-club/chill-agent',spec:`git+https://github.com/game-dev-rta-club/chill-agnet.git#${commit}`},null,2)+'\n');
 console.log('Built standalone skill, CLI + optional continuation policy, Codex plugin and experimental Claude plugin');
